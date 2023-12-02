@@ -5,6 +5,9 @@
     <Platforms>AnyCPU;x64;ARM64</Platforms>
     <NoWarn>$(NoWarn);CA1416</NoWarn>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="TiffLibrary1" Version="1.0.3" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\ComputeSharp.Core\ComputeSharp.Core.csproj" />
