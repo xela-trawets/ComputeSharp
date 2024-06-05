@@ -18,6 +18,17 @@ public unsafe partial struct Bool2
     private int y;
 
     /// <summary>
+    /// Creates a new <see cref="Bool2"/> instance with the specified parameters.
+    /// </summary>
+    /// <param name="x">The value to assign to the first vector component.</param>
+    /// <param name="y">The value to assign to the second vector component.</param>
+    public Bool2(bool x, bool y)
+    {
+        this.x = x ? 1 : 0;
+        this.y = y ? 1 : 0;
+    }
+
+    /// <summary>
     /// Gets a reference to a specific component in the current <see cref="Bool2"/> instance.
     /// </summary>
     /// <param name="i">The index of the component to access.</param>
@@ -466,6 +477,12 @@ public unsafe partial struct Bool2
     {
         return $"<{this.x != 0}, {this.y != 0}>";
     }
+
+    /// <summary>
+    /// Creates a new <see cref="Bool2"/> value with the same value for all its components.
+    /// </summary>
+    /// <param name="x">The value to use for the components of the new <see cref="Bool2"/> instance.</param>
+    public static implicit operator Bool2(bool x) => new(x, x);
 
     /// <summary>
     /// Negates a <see cref="Bool2"/> value.

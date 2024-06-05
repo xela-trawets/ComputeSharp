@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -15,12 +14,12 @@ internal static class HlslKnownSizes
     /// <summary>
     /// The mapping of supported known sizes to HLSL type names.
     /// </summary>
-    private static readonly IReadOnlyDictionary<string, (int, int)> KnownSizes = BuildKnownSizesMap();
+    private static readonly Dictionary<string, (int, int)> KnownSizes = BuildKnownSizesMap();
 
     /// <summary>
     /// Builds the mapping of known type sizes and alignments.
     /// </summary>
-    private static IReadOnlyDictionary<string, (int, int)> BuildKnownSizesMap()
+    private static Dictionary<string, (int, int)> BuildKnownSizesMap()
     {
         Dictionary<string, (int, int)> knownSizes = new()
         {
@@ -28,11 +27,7 @@ internal static class HlslKnownSizes
             [typeof(int).FullName] = (4, 4),
             [typeof(uint).FullName] = (4, 4),
             [typeof(float).FullName] = (4, 4),
-            [typeof(double).FullName] = (8, 8),
-
-            [typeof(Vector2).FullName] = (8, 4),
-            [typeof(Vector3).FullName] = (12, 4),
-            [typeof(Vector4).FullName] = (16, 4)
+            [typeof(double).FullName] = (8, 8)
         };
 
         foreach (

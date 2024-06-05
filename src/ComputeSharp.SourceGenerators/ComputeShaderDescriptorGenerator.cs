@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Linq;
+using ComputeSharp.SourceGeneration.Constants;
 using ComputeSharp.SourceGeneration.Extensions;
 using ComputeSharp.SourceGeneration.Helpers;
 using ComputeSharp.SourceGeneration.Models;
@@ -58,8 +59,6 @@ public sealed partial class ComputeShaderDescriptorGenerator : IIncrementalGener
                         return default;
                     }
 
-                    using ImmutableArrayBuilder<DiagnosticInfo> diagnostics = new();
-
                     // Get the fields info
                     ConstantBuffer.GetInfo(
                         context.SemanticModel.Compilation,
@@ -72,7 +71,6 @@ public sealed partial class ComputeShaderDescriptorGenerator : IIncrementalGener
 
                     // Thread group size info
                     NumThreads.GetInfo(
-                        diagnostics,
                         typeSymbol,
                         out int threadsX,
                         out int threadsY,
@@ -80,6 +78,13 @@ public sealed partial class ComputeShaderDescriptorGenerator : IIncrementalGener
                         out bool isCompilationEnabled);
 
                     token.ThrowIfCancellationRequested();
+
+                    // Get the compile options as well
+                    CompileOptions compileOptions = HlslBytecode.GetCompileOptions(typeSymbol);
+
+                    token.ThrowIfCancellationRequested();
+
+                    using ImmutableArrayBuilder<DiagnosticInfo> diagnostics = new();
 
                     // Transpiled HLSL source info
                     HlslSource.GetInfo(
@@ -96,20 +101,13 @@ public sealed partial class ComputeShaderDescriptorGenerator : IIncrementalGener
 
                     token.ThrowIfCancellationRequested();
 
-                    // Get the resources info
+                    // Get the resources info (we must do this after crawling the HLSL source)
                     Resources.GetInfo(
-                        diagnostics,
                         context.SemanticModel.Compilation,
                         typeSymbol,
                         isImplicitTextureUsed,
-                        constantBufferSizeInBytes,
                         out ImmutableArray<ResourceInfo> resourceInfo,
                         out ImmutableArray<ResourceDescriptor> resourceDescriptors);
-
-                    token.ThrowIfCancellationRequested();
-
-                    // Get the compile options as well
-                    CompileOptions compileOptions = HlslBytecode.GetCompileOptions(diagnostics, typeSymbol);
 
                     token.ThrowIfCancellationRequested();
 
@@ -117,11 +115,12 @@ public sealed partial class ComputeShaderDescriptorGenerator : IIncrementalGener
                     HlslBytecodeInfoKey hlslInfoKey = new(hlslSource, compileOptions, isCompilationEnabled);
 
                     // Try to get the HLSL bytecode
-                    HlslBytecodeInfo hlslInfo = HlslBytecode.GetBytecode(ref hlslInfoKey, token);
+                    HlslBytecodeInfo hlslInfo = HlslBytecodeSyntaxProcessor.GetInfo(ref hlslInfoKey, token);
 
                     token.ThrowIfCancellationRequested();
 
-                    HlslBytecode.GetInfoDiagnostics(typeSymbol, hlslInfo, diagnostics);
+                    HlslBytecodeSyntaxProcessor.GetInfoDiagnostics(typeSymbol, hlslInfo, diagnostics);
+                    HlslBytecodeSyntaxProcessor.GetDoublePrecisionSupportDiagnostics(typeSymbol, hlslInfo, diagnostics);
 
                     token.ThrowIfCancellationRequested();
 
@@ -145,11 +144,21 @@ public sealed partial class ComputeShaderDescriptorGenerator : IIncrementalGener
                         HlslInfo: hlslInfo,
                         Diagnostcs: diagnostics.ToImmutable());
                 })
+            .WithTrackingName(WellKnownTrackingNames.Execute)
             .Where(static item => item is not null)!;
 
         // Split the diagnostics, and drop them from the output provider (see more notes in the D2D1 generator)
-        IncrementalValuesProvider<EquatableArray<DiagnosticInfo>> diagnosticInfo = shaderInfo.Select(static (item, _) => item.Diagnostcs);
-        IncrementalValuesProvider<ShaderInfo> outputInfo = shaderInfo.Select(static (item, _) => item with { Diagnostcs = default });
+        IncrementalValuesProvider<EquatableArray<DiagnosticInfo>> diagnosticInfo =
+            shaderInfo
+            .Select(static (item, _) => item.Diagnostcs)
+            .WithTrackingName(WellKnownTrackingNames.Diagnostics)
+            .Where(static item => !item.IsEmpty);
+
+        // Gather the models to produce sources for
+        IncrementalValuesProvider<ShaderInfo> outputInfo =
+            shaderInfo
+            .Select(static (item, _) => item with { Diagnostcs = default })
+            .WithTrackingName(WellKnownTrackingNames.Output);
 
         // Output the diagnostics, if any
         context.ReportDiagnostics(diagnosticInfo);
@@ -183,7 +192,7 @@ public sealed partial class ComputeShaderDescriptorGenerator : IIncrementalGener
             item.Hierarchy.WriteSyntax(
                 state: item,
                 writer: writer,
-                baseTypes: new[] { $"global::ComputeSharp.Descriptors.IComputeShaderDescriptor<{item.Hierarchy.Hierarchy[0].QualifiedName}>" },
+                baseTypes: [$"global::ComputeSharp.Descriptors.IComputeShaderDescriptor<{item.Hierarchy.Hierarchy[0].QualifiedName}>"],
                 memberCallbacks: declaredMembers.WrittenSpan);
 
             // Append any additional types as well

@@ -66,3 +66,8 @@ CMPS0057 | ComputeSharp.Shaders | Warning | [Documentation](https://github.com/S
 CMPS0058 | ComputeSharp.Shaders | Error | [Documentation](https://github.com/Sergio0694/ComputeSharp)
 CMPS0059 | ComputeSharp.Shaders | Error | [Documentation](https://github.com/Sergio0694/ComputeSharp)
 CMPS0060 | ComputeSharp.Shaders | Error | [Documentation](https://github.com/Sergio0694/ComputeSharp)
+CMPS0061 | ComputeSharp.Shaders | Error | [Documentation](https://github.com/Sergio0694/ComputeSharp)
+CMPS0062 | ComputeSharp.Shaders | Error | [Documentation](https://github.com/Sergio0694/ComputeSharp)
+CMPS0063 | ComputeSharp.Shaders | Error | [Documentation](https://github.com/Sergio0694/ComputeSharp)
+CMPS0064 | ComputeSharp.Shaders | Error | [Documentation](https://github.com/Sergio0694/ComputeSharp)
+CMPS0065 | ComputeSharp.Shaders | Warning | [Documentation](https://github.com/Sergio0694/ComputeSharp)

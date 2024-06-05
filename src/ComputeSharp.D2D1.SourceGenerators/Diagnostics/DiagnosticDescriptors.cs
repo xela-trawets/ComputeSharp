@@ -397,19 +397,19 @@ partial class DiagnosticDescriptors
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
-    /// Gets a <see cref="DiagnosticDescriptor"/> for an invalid shader static readonly field type.
+    /// Gets a <see cref="DiagnosticDescriptor"/> for an invalid static field type.
     /// <para>
-    /// Format: <c>"The pixel shader of type {0} contains a static readonly field "{1}" of an invalid type {2} (only primitive, vector and matrix types are supported)"</c>.
+    /// Format: <c>"The pixel shader of type {0} contains or references a static field "{1}" of an invalid type {2} (only primitive, vector and matrix types are supported)"</c>.
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidShaderStaticFieldType = new(
         id: "CMPSD2D0030",
-        title: "Invalid shader static readonly field type",
-        messageFormat: """The pixel shader of type {0} contains a static readonly field "{1}" of an invalid type {2} (only primitive, vector and matrix types are supported)""",
+        title: "Invalid shader static field type",
+        messageFormat: """The pixel shader of type {0} contains or references a static field "{1}" of an invalid type {2} (only primitive, vector and matrix types are supported)""",
         category: "ComputeSharp.D2D1.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "A type representing a pixel shader contains a static readonly field of a type that is not supported.",
+        description: "A type representing a pixel shader contains or references a static field of a type that is not supported.",
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
@@ -431,17 +431,17 @@ partial class DiagnosticDescriptors
     /// <summary>
     /// Gets a <see cref="DiagnosticDescriptor"/> for a shader with a root signature that is too large.
     /// <para>
-    /// Format: <c>"The D2D1 shader of type {0} has exceeded the maximum allowed size for captured values"</c>.
+    /// Format: <c>"The D2D1 shader of type {0} has exceeded the maximum allowed size for captured values (the maximum size is 64KB, and the actual constant buffer size was {1} bytes)"</c>.
     /// </para>
     /// </summary>
-    public static readonly DiagnosticDescriptor ShaderDispatchDataSizeExceeded = new(
+    public static readonly DiagnosticDescriptor ExceededDispatchDataSize = new(
         id: "CMPSD2D0032",
         title: "Shader dispatch data size exceeded",
-        messageFormat: "The D2D1 shader of type {0} has exceeded the maximum allowed size for captured values",
+        messageFormat: "The D2D1 shader of type {0} has exceeded the maximum allowed size for captured values (the maximum size is 64KB, and the actual constant buffer size was {1} bytes)",
         category: "ComputeSharp.D2D1.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "The D2D1 shader of type {0} has exceeded the maximum allowed size for captured values.",
+        description: "The D2D1 shader of type {0} has exceeded the maximum allowed size for captured values (the maximum size for constant buffers is 64KB).",
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
@@ -466,7 +466,7 @@ partial class DiagnosticDescriptors
     /// Format: <c>"The shader of type {0} failed to compile due to an HLSL compiler error (Message: "{1}")"</c>.
     /// </para>
     /// </summary>
-    public static readonly DiagnosticDescriptor HlslBytecodeFailedWithFxcCompilationException = new(
+    public static readonly DiagnosticDescriptor HlslBytecodeFailedWithCompilationException = new(
         id: "CMPSD2D0034",
         title: "HLSL bytecode compilation failed due to an HLSL compiler error",
         messageFormat: """The shader of type {0} failed to compile due to an HLSL compiler error (Message: "{1}")""",
@@ -479,17 +479,17 @@ partial class DiagnosticDescriptors
     /// <summary>
     /// Gets a <see cref="DiagnosticDescriptor"/> for a invalid D2D input count value.
     /// <para>
-    /// Format: <c>"The D2D1 shader of type {0} is using an incorrect value for [D2DInputCount] (the number of inputs must be in the [0, 8] range)"</c>.
+    /// Format: <c>"The D2D1 shader of type {0} is using an incorrect value for [D2DInputCount] (the number of inputs must be in the [0, 8] range, but it was {1})"</c>.
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidD2DInputCount = new(
         id: "CMPSD2D0035",
         title: "Invalid D2D1 shader input count",
-        messageFormat: "The D2D1 shader of type {0} is using an incorrect value for [D2DInputCount] (the number of inputs must be in the [0, 8] range)",
+        messageFormat: "The D2D1 shader of type {0} is using an incorrect value for [D2DInputCount] (the number of inputs must be in the [0, 8] range, but it was {1})",
         category: "ComputeSharp.D2D1.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "A D2D1 shader must have a number of inputs in the [1, 8] range.",
+        description: "A D2D1 shader must have a number of inputs in the [0, 8] range.",
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
@@ -557,19 +557,19 @@ partial class DiagnosticDescriptors
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
-    /// Gets a <see cref="DiagnosticDescriptor"/> for a method invocation that is not valid from a shader.
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a method or constructor invocation that is not valid from a shader.
     /// <para>
-    /// Format: <c>"The method {0} cannot be used in a D2D1 shader (methods need to either be HLSL intrinsics or with source available for analysis)"</c>.
+    /// Format: <c>"The method or constructor {0} cannot be used in a D2D1 shader (methods or constructors need to either be HLSL intrinsics or with source available for analysis)"</c>.
     /// </para>
     /// </summary>
-    public static readonly DiagnosticDescriptor InvalidMethodCall = new(
+    public static readonly DiagnosticDescriptor InvalidMethodOrConstructorCall = new(
         id: "CMPSD2D0040",
-        title: "Invalid method invocation from a D2D1 shader",
-        messageFormat: "The method {0} cannot be used in a D2D1 shader (methods need to either be HLSL intrinsics or with source available for analysis)",
+        title: "Invalid method or constructor invocation from a D2D1 shader",
+        messageFormat: "The method or constructor {0} cannot be used in a D2D1 shader (methods or constructors need to either be HLSL intrinsics or with source available for analysis)",
         category: "ComputeSharp.D2D1.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "A D2D1 shader can only invoke methods that are either HLSL intrinsics or with source available for analysis.",
+        description: "A D2D1 shader can only invoke methods or constructors that are either HLSL intrinsics or with source available for analysis.",
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
@@ -581,11 +581,11 @@ partial class DiagnosticDescriptors
     public static readonly DiagnosticDescriptor InvalidDiscoveredType = new(
         id: "CMPSD2D0041",
         title: "Invalid discovered type",
-        messageFormat: "The D2D1 shader of type {0} uses the invalid type {1} (only some .NET primitives and vector types, HLSL primitive, vector and matrix types, and custom types containing these types can be used, and custom types containing these types can be used, and bool fields in custom struct types have to be replaced with the ComputeSharp.Bool type for alignment reasons)",
+        messageFormat: "The D2D1 shader of type {0} uses the invalid type {1} (only some .NET primitive types, HLSL primitive, vector and matrix types, and custom types containing these types can be used, and custom types containing these types can be used, and bool fields in custom struct types have to be replaced with the ComputeSharp.Bool type for alignment reasons)",
         category: "ComputeSharp.D2D1.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "D2D1 shaders can only use supported types (some .NET primitives and vector types, HLSL primitive, vector and matrix types, and custom types containing these types can be used, and custom types containing these types can be used, and bool fields in custom struct types have to be replaced with the ComputeSharp.Bool type for alignment reasons).",
+        description: "D2D1 shaders can only use supported types (some .NET primitive types, HLSL primitive, vector and matrix types, and custom types containing these types can be used, and custom types containing these types can be used, and bool fields in custom struct types have to be replaced with the ComputeSharp.Bool type for alignment reasons).",
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
@@ -654,9 +654,9 @@ partial class DiagnosticDescriptors
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
-    /// Gets a <see cref="DiagnosticDescriptor"/> for a shader with an out of range resource texture index (or more).
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a shader with an overlapping resource texture index (or more).
     /// <para>
-    /// Format: <c>"The D2D1 shader of type {0} is using some out of range resource texture indices"</c>.
+    /// Format: <c>"The D2D1 shader of type {0} is using some resource texture indices that overlap with the shader input indices"</c>.
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor ResourceTextureIndexOverlappingWithInputIndex = new(
@@ -702,14 +702,14 @@ partial class DiagnosticDescriptors
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
-    /// Gets a <see cref="DiagnosticDescriptor"/> for an invalid use of <c>[D2DResourceTextureIndex]</c>.
+    /// Gets a <see cref="DiagnosticDescriptor"/> for an invalid location of <c>[D2DResourceTextureIndex]</c>.
     /// <para>
-    /// Format: <c>"The field "{0}" (in type {1}) is using [D2DResourceTextureIndex] incorrectly (the attribute can only be used on D2D1 resource texture types, but the field is of type {2})"</c>.
+    /// Format: <c>"The field "{0}" (in type {1}) is using [D2DResourceTextureIndex] on an invalid location (the attribute can only be used on D2D1 resource texture types, but the field is of type {2})"</c>.
     /// </para>
     /// </summary>
-    public static readonly DiagnosticDescriptor InvalidD2DResourceTextureIndexAttributeUse = new(
+    public static readonly DiagnosticDescriptor InvalidD2DResourceTextureIndexAttributeLocation = new(
         id: "CMPSD2D0049",
-        title: "Invalid [D2DResourceTextureIndex] use",
+        title: "Invalid [D2DResourceTextureIndex] location",
         messageFormat: """The field "{0}" (in type {1}) is using [D2DResourceTextureIndex] incorrectly (the attribute can only be used on D2D1 resource texture types, but the field is of type {2})""",
         category: "ComputeSharp.D2D1.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
@@ -1079,5 +1079,163 @@ partial class DiagnosticDescriptors
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
         description: "A collection expression cannot be used in a pixel shader.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a constructor with a base constructor declaration.
+    /// <para>
+    /// Format: <c>"The constructor {0} has a base constructor declaration, which cannot be used in a D2D1 shader (only standalone constructors are allowed)"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidBaseConstructorDeclaration = new(
+        id: "CMPSD2D0073",
+        title: "Invalid base constructor declaration",
+        messageFormat: "The constructor {0} has a base constructor declaration, which cannot be used in a D2D1 shader (only standalone constructors are allowed)",
+        category: "ComputeSharp.D2D1.Shaders",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Only standalone constructors (with no base constructor declaration) can be used in a D2D1 shader.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a <see langword="this"/> expression.
+    /// </summary>
+    public static readonly DiagnosticDescriptor ThisExpression = new(
+        id: "CMPSD2D0074",
+        title: "Invalid 'this' expression",
+        messageFormat: "A pixel shader cannot use a 'this' expression outside of member accesses (such as 'this.field')",
+        category: "ComputeSharp.D2D1.Shaders",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "A pixel shader cannot use a 'this' expression outside of member accesses (such as 'this.field').",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for an invocation of a <c>Math</c> or <c>MathF</c> API.
+    /// <para>
+    /// Format: <c>"The method {0} cannot be used in a shader, use equivalent APIs from the Hlsl type instead"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidMathOrMathFCall = new(
+        id: "CMPSD2D0075",
+        title: "Invalid Math or MathF invocation from a shader",
+        messageFormat: "The method {0} cannot be used in a shader, use equivalent APIs from the Hlsl type instead",
+        category: "ComputeSharp.D2D1.Shaders",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Methods from the Math and MathF types cannot be used in a shader, and equivalent APIs from the Hlsl type should be used instead.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a shader not precompiled but with runtime compilation disabled.
+    /// <para>
+    /// Format: <c>"The shader {0} is not precompiled, but runtime compilation is not enabled (either precompile the shader by using [D2DShaderProfile], which is recommended, or enable runtime compilation using [D2DEnableRuntimeCompilation])"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor D2DRuntimeCompilationDisabled = new(
+        id: "CMPSD2D0076",
+        title: "D2D runtime compilation disabled",
+        messageFormat: "The shader {0} is not precompiled, but runtime compilation is not enabled (either precompile the shader by using [D2DShaderProfile], which is recommended, or enable runtime compilation using [D2DEnableRuntimeCompilation])",
+        category: "ComputeSharp.D2D1.Shaders",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Shaders must either be precompiled using [D2DShaderProfile], which is recommended, or runtime compilation for shaders must be enabled using [D2DEnableRuntimeCompilation].",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for an unnecessary [D2DEnableRuntimeCompilation] use.
+    /// <para>
+    /// Format: <c>"The shader {0} is annotated with [D2DEnableRuntimeCompilation], but its containing assembly is already annotated with this attribute (so using it again on the shader type is unnecessary)"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor D2DRuntimeCompilationAlreadyEnabled = new(
+        id: "CMPSD2D0077",
+        title: "D2D runtime compilation already enabled",
+        messageFormat: "The shader {0} is annotated with [D2DEnableRuntimeCompilation], but its containing assembly is already annotated with this attribute (so using it again on the shader type is unnecessary)",
+        category: "ComputeSharp.D2D1.Shaders",
+        defaultSeverity: DiagnosticSeverity.Info,
+        isEnabledByDefault: true,
+        description: "If an assembly is annotated with [D2DEnableRuntimeCompilation], that applies to all shader types within it. That means that using [D2DEnableRuntimeCompilation] on shader types too is unnecessary.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for an unnecessary [D2DEnableRuntimeCompilation] use on .
+    /// <para>
+    /// Format: <c>"The shader {0} is annotated with [D2DEnableRuntimeCompilation], but it is also being precompiled, as it has [D2DShaderProfile] on the type or containing assembly (so using [D2DEnableRuntimeCompilation] is unnecessary)"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor D2DRuntimeCompilationOnTypeNotNecessary = new(
+        id: "CMPSD2D0078",
+        title: "D2D runtime compilation on type is not necessary",
+        messageFormat: "The shader {0} is annotated with [D2DEnableRuntimeCompilation], but it is also being precompiled, as it has [D2DShaderProfile] on the type or containing assembly (so using [D2DEnableRuntimeCompilation] is unnecessary)",
+        category: "ComputeSharp.D2D1.Shaders",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "If a shader is precompiled (ie. it has [D2DShaderProfile] on the type declaration or on its containing assembly), also using [D2DEnableRuntimeCompilation] is unnecessary.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for an unnecessary [D2DEnableRuntimeCompilation] use on an assembly.
+    /// <para>
+    /// Format: <c>"The assembly {0} is annotated with [D2DEnableRuntimeCompilation], but it is also has an assembly-level [D2DShaderProfile] attribute, which will cause all shaders to be precompiled (so using [D2DEnableRuntimeCompilation] is unnecessary)"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor D2DRuntimeCompilationOnAssemblyNotNecessary = new(
+        id: "CMPSD2D0079",
+        title: "D2D runtime compilation on assembly is not necessary",
+        messageFormat: "The assembly {0} is annotated with [D2DEnableRuntimeCompilation], but it is also has an assembly-level [D2DShaderProfile] attribute, which will cause all shaders to be precompiled (so using [D2DEnableRuntimeCompilation] is unnecessary)",
+        category: "ComputeSharp.D2D1.Shaders",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "If an assembly is using [D2DShaderProfile] (meaning that all shaders declared within it will be precompiled), also using [D2DEnableRuntimeCompilation] is unnecessary.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp",
+        customTags: WellKnownDiagnosticTags.CompilationEnd);
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a shader missing [D2DRequiresDoublePrecisionSupport].
+    /// <para>
+    /// Format: <c>"The shader {0} requires double precision support, but it does not have the [D2DRequiresDoublePrecisionSupport] attribute on it (adding the attribute is necessary to explicitly opt-in to that functionality)"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor MissingRequiresDoublePrecisionSupportAttribute = new(
+        id: "CMPSD2D0080",
+        title: "Missing [D2DRequiresDoublePrecisionSupport] attribute",
+        messageFormat: "The shader {0} requires double precision support, but it does not have the [D2DRequiresDoublePrecisionSupport] attribute on it (adding the attribute is necessary to explicitly opt-in to that functionality)",
+        category: "ComputeSharp.D2D1.Shaders",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Shaders performing double precision operations must be annotated with [D2DRequiresDoublePrecisionSupport] to explicitly opt-in to that functionality.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a shader is unnecessarily using [D2DRequiresDoublePrecisionSupport].
+    /// <para>
+    /// Format: <c>"The shader {0} does not require double precision support, but it has the [D2DRequiresDoublePrecisionSupport] attribute on it (using the attribute is not needed if the shader is not performing any double precision operations)"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor UnnecessaryRequiresDoublePrecisionSupportAttribute = new(
+        id: "CMPSD2D0081",
+        title: "Unnecessary [D2DRequiresDoublePrecisionSupport] attribute",
+        messageFormat: "The shader {0} does not require double precision support, but it has the [D2DRequiresDoublePrecisionSupport] attribute on it (using the attribute is not needed if the shader is not performing any double precision operations)",
+        category: "ComputeSharp.D2D1.Shaders",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "Shaders not performing any double precision operations should not be annotated with [D2DRequiresDoublePrecisionSupport], as the attribute is not needed in that case.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a shader is using [D2DRequiresDoublePrecisionSupport] incorrectly.
+    /// <para>
+    /// Format: <c>"The shader {0} has the [D2DRequiresDoublePrecisionSupport] attribute on it, but it is not precompiled, so validation for use of double precision operations cannot be performed"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidD2DRequiresDoublePrecisionSupportAttribute = new(
+        id: "CMPSD2D0082",
+        title: "Invalid [D2DRequiresDoublePrecisionSupport] attribute",
+        messageFormat: "The shader {0} has the [D2DRequiresDoublePrecisionSupport] attribute on it, but it is not precompiled, so validation for use of double precision operations cannot be performed",
+        category: "ComputeSharp.D2D1.Shaders",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "Shaders can only be annotated with [D2DRequiresDoublePrecisionSupport] to perform validation for use of double precision operations if they are precompiled.",
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 }

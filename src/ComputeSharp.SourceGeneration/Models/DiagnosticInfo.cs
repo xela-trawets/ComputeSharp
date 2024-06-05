@@ -37,14 +37,34 @@ internal sealed record DiagnosticInfo(
     /// Creates a new <see cref="DiagnosticInfo"/> instance with the specified parameters.
     /// </summary>
     /// <param name="descriptor">The input <see cref="DiagnosticDescriptor"/> for the diagnostics to create.</param>
+    /// <param name="location">The location to use for the diagnostic.</param>
+    /// <param name="args">The optional arguments for the formatted message to include.</param>
+    /// <returns>A new <see cref="DiagnosticInfo"/> instance with the specified parameters.</returns>
+    public static DiagnosticInfo Create(DiagnosticDescriptor descriptor, Location? location, params object[] args)
+    {
+        // The returned DiagnosticInfo instances will be used inside incremental collections. Because of
+        // that, we pre-transform all arguments with ToString(), so they are guaranteed to be equatable
+        // from the start and not to keep compilations alive (if eg. they happen to be symbol objects).
+        EquatableArray<string> textArgs = args.Select(static arg => arg.ToString()).ToImmutableArray();
+
+        if (location is null)
+        {
+            return new(descriptor, null, default, textArgs);
+        }
+
+        return new(descriptor, location.SourceTree, location.SourceSpan, textArgs);
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="DiagnosticInfo"/> instance with the specified parameters.
+    /// </summary>
+    /// <param name="descriptor">The input <see cref="DiagnosticDescriptor"/> for the diagnostics to create.</param>
     /// <param name="symbol">The source <see cref="ISymbol"/> to attach the diagnostics to.</param>
     /// <param name="args">The optional arguments for the formatted message to include.</param>
     /// <returns>A new <see cref="DiagnosticInfo"/> instance with the specified parameters.</returns>
     public static DiagnosticInfo Create(DiagnosticDescriptor descriptor, ISymbol symbol, params object[] args)
     {
-        Location location = symbol.Locations.First();
-
-        return new(descriptor, location.SourceTree, location.SourceSpan, args.Select(static arg => arg.ToString()).ToImmutableArray());
+        return Create(descriptor, symbol.Locations.FirstOrDefault(), args);
     }
 
     /// <summary>
@@ -56,8 +76,6 @@ internal sealed record DiagnosticInfo(
     /// <returns>A new <see cref="DiagnosticInfo"/> instance with the specified parameters.</returns>
     public static DiagnosticInfo Create(DiagnosticDescriptor descriptor, SyntaxNode node, params object[] args)
     {
-        Location location = node.GetLocation();
-
-        return new(descriptor, location.SourceTree, location.SourceSpan, args.Select(static arg => arg.ToString()).ToImmutableArray());
+        return Create(descriptor, node.GetLocation(), args);
     }
 }

@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <DefineConstants>$(DefineConstants);D3D12_SOURCE_GENERATOR</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -20,38 +21,23 @@
     <Compile Include="..\ComputeSharp.Core\Intrinsics\Hlsl.g.cs" Link="ComputeSharp.Core\Intrinsics\Hlsl.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Intrinsics\Hlsl.Void.g.cs" Link="ComputeSharp.Core\Intrinsics\Hlsl.Void.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Bool\Bool.cs" Link="ComputeSharp.Core\Primitives\Bool\Bool.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Bool\Bool2.cs" Link="ComputeSharp.Core\Primitives\Bool\Bool2.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Bool\Bool3.cs" Link="ComputeSharp.Core\Primitives\Bool\Bool3.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Bool\Bool4.cs" Link="ComputeSharp.Core\Primitives\Bool\Bool4.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Bool\Bool2.g.cs" Link="ComputeSharp.Core\Primitives\Bool\Bool2.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Bool\Bool3.g.cs" Link="ComputeSharp.Core\Primitives\Bool\Bool3.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Bool\Bool4.g.cs" Link="ComputeSharp.Core\Primitives\Bool\Bool4.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Bool\BoolMxN.g.cs" Link="ComputeSharp.Core\Primitives\Bool\BoolMxN.g.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Double\Double2.cs" Link="ComputeSharp.Core\Primitives\Double\Double2.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Double\Double3.cs" Link="ComputeSharp.Core\Primitives\Double\Double3.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Double\Double4.cs" Link="ComputeSharp.Core\Primitives\Double\Double4.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Double\Double2.g.cs" Link="ComputeSharp.Core\Primitives\Double\Double2.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Double\Double3.g.cs" Link="ComputeSharp.Core\Primitives\Double\Double3.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Double\Double4.g.cs" Link="ComputeSharp.Core\Primitives\Double\Double4.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Double\DoubleMxN.g.cs" Link="ComputeSharp.Core\Primitives\Double\DoubleMxN.g.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Float\Float2.cs" Link="ComputeSharp.Core\Primitives\Float\Float2.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Float\Float3.cs" Link="ComputeSharp.Core\Primitives\Float\Float3.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Float\Float4.cs" Link="ComputeSharp.Core\Primitives\Float\Float4.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Float\Float2.g.cs" Link="ComputeSharp.Core\Primitives\Float\Float2.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Float\Float3.g.cs" Link="ComputeSharp.Core\Primitives\Float\Float3.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Float\Float4.g.cs" Link="ComputeSharp.Core\Primitives\Float\Float4.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Float\FloatMxN.g.cs" Link="ComputeSharp.Core\Primitives\Float\FloatMxN.g.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Int\Int2.cs" Link="ComputeSharp.Core\Primitives\Int\Int2.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Int\Int3.cs" Link="ComputeSharp.Core\Primitives\Int\Int3.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\Int\Int4.cs" Link="ComputeSharp.Core\Primitives\Int\Int4.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Int\Int2.g.cs" Link="ComputeSharp.Core\Primitives\Int\Int2.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Int\Int3.g.cs" Link="ComputeSharp.Core\Primitives\Int\Int3.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Int\Int4.g.cs" Link="ComputeSharp.Core\Primitives\Int\Int4.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Int\IntMxN.g.cs" Link="ComputeSharp.Core\Primitives\Int\IntMxN.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\Internals\UndefinedData.cs" Link="ComputeSharp.Core\Primitives\Internals\UndefinedData.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\UInt\UInt2.cs" Link="ComputeSharp.Core\Primitives\UInt\UInt2.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\UInt\UInt3.cs" Link="ComputeSharp.Core\Primitives\UInt\UInt3.cs" />
-    <Compile Include="..\ComputeSharp.Core\Primitives\UInt\UInt4.cs" Link="ComputeSharp.Core\Primitives\UInt\UInt4.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\UInt\UInt2.g.cs" Link="ComputeSharp.Core\Primitives\UInt\UInt2.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\UInt\UInt3.g.cs" Link="ComputeSharp.Core\Primitives\UInt\UInt3.g.cs" />
     <Compile Include="..\ComputeSharp.Core\Primitives\UInt\UInt4.g.cs" Link="ComputeSharp.Core\Primitives\UInt\UInt4.g.cs" />
@@ -71,8 +57,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" Pack="false" />
-    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.49-beta" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" PrivateAssets="all" Pack="false" />
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.106" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

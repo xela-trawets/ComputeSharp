@@ -16,27 +16,23 @@ internal unsafe partial struct PixelShaderEffect
     /// </summary>
     /// <param name="effectImpl">The resulting effect factory.</param>
     /// <returns>The <c>HRESULT</c> for the operation.</returns>
+    /// <remarks>
+    /// The return type is intentionally <see langword="void"/><c>*</c> because delegate targets are considered
+    /// visible for reflection, so not using <see cref="IUnknown"/> avoids metadata for it being rooted unnecessarily.
+    /// </remarks>
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate int FactoryDelegate(IUnknown** effectImpl);
+    public delegate int FactoryDelegate(void** effectImpl);
 
     /// <summary>
     /// A base type with global values for pixel shader effects.
     /// </summary>
-    public abstract class Globals
+    /// <param name="effectFactory">The <see cref="FactoryDelegate"/> wrapper for the shader factory.</param>
+    public abstract class Globals(FactoryDelegate effectFactory)
     {
         /// <summary>
         /// Gets the <see cref="FactoryDelegate"/> wrapper for the shader factory.
         /// </summary>
-        private readonly FactoryDelegate effectFactory;
-
-        /// <summary>
-        /// Creates a new <see cref="Globals"/> instance with the specified parameters.
-        /// </summary>
-        /// <param name="effectFactory">The <see cref="FactoryDelegate"/> wrapper for the shader factory.</param>
-        protected Globals(FactoryDelegate effectFactory)
-        {
-            this.effectFactory = effectFactory;
-        }
+        private readonly FactoryDelegate effectFactory = effectFactory;
 
         /// <inheritdoc cref="ID2D1PixelShaderDescriptor{T}.EffectId"/>
         public abstract ref readonly Guid EffectId { get; }
@@ -153,9 +149,9 @@ internal unsafe partial struct PixelShaderEffect
         }
 
         /// <inheritdoc cref="FactoryDelegate"/>
-        private static int CreateEffect(IUnknown** effectImpl)
+        private static int CreateEffect(void** effectImpl)
         {
-            return PixelShaderEffect.Factory(Instance, effectImpl);
+            return PixelShaderEffect.Factory(Instance, (IUnknown**)effectImpl);
         }
     }
 }

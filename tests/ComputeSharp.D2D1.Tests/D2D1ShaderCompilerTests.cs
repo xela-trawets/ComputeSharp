@@ -5,7 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ComputeSharp.D2D1.Tests;
 
 [TestClass]
-[TestCategory("D2D1ShaderCompiler")]
 public partial class D2D1ShaderCompilerTests
 {
     [TestMethod]
@@ -81,9 +80,53 @@ public partial class D2D1ShaderCompilerTests
             source.AsSpan(),
             "PSMain".AsSpan(),
             D2D1ShaderProfile.PixelShader40Level93,
+            D2D1CompileOptions.Default);
+
+        ReadOnlyMemory<byte> bytecodeWithLinking = D2D1ShaderCompiler.Compile(
+            source.AsSpan(),
+            "PSMain".AsSpan(),
+            D2D1ShaderProfile.PixelShader40Level93,
             D2D1CompileOptions.Default | D2D1CompileOptions.EnableLinking);
 
-        Assert.IsTrue(bytecode.Length > 0);
+        Assert.IsTrue(bytecode.Length > 800);
+        Assert.IsTrue(bytecodeWithLinking.Length > 1600);
+        Assert.IsTrue(bytecodeWithLinking.Length > bytecode.Length);
+        Assert.IsTrue((bytecodeWithLinking.Length - bytecode.Length) > 800);
+    }
+
+    [TestMethod]
+    public void CompileInvertEffectWithDefaultOptionsAndStripReflectionData()
+    {
+        const string source = """
+            #define D2D_INPUT_COUNT 1
+            #define D2D_INPUT0_SIMPLE
+
+            #include "d2d1effecthelpers.hlsli"
+
+            D2D_PS_ENTRY(PSMain)
+            {
+                float4 color = D2DGetInput(0);
+                float3 rgb = saturate(1.0 - color.rgb);
+                return float4(rgb, 1);
+            }
+            """;
+
+        ReadOnlyMemory<byte> bytecode = D2D1ShaderCompiler.Compile(
+            source.AsSpan(),
+            "PSMain".AsSpan(),
+            D2D1ShaderProfile.PixelShader40Level93,
+            D2D1CompileOptions.Default);
+
+        ReadOnlyMemory<byte> bytecodeWithStripReflectionData = D2D1ShaderCompiler.Compile(
+            source.AsSpan(),
+            "PSMain".AsSpan(),
+            D2D1ShaderProfile.PixelShader40Level93,
+            D2D1CompileOptions.Default | D2D1CompileOptions.StripReflectionData);
+
+        Assert.IsTrue(bytecode.Length > 800);
+        Assert.IsTrue(bytecodeWithStripReflectionData.Length > 500);
+        Assert.IsTrue(bytecode.Length > bytecodeWithStripReflectionData.Length);
+        Assert.IsTrue((bytecode.Length - bytecodeWithStripReflectionData.Length) > 200);
     }
 
     [TestMethod]
@@ -193,12 +236,6 @@ public partial class D2D1ShaderCompilerTests
     public void CompileShaderWithWarning()
     {
         const string source = """
-            // ================================================
-            //                  AUTO GENERATED
-            // ================================================
-            // This shader was created by ComputeSharp.
-            // See: https://github.com/Sergio0694/ComputeSharp.
-
             #define D2D_INPUT_COUNT 0
 
             #include "d2d1effecthelpers.hlsli"
@@ -225,12 +262,6 @@ public partial class D2D1ShaderCompilerTests
     public void CompileShaderWithWarning_Suppressed()
     {
         const string source = """
-            // ================================================
-            //                  AUTO GENERATED
-            // ================================================
-            // This shader was created by ComputeSharp.
-            // See: https://github.com/Sergio0694/ComputeSharp.
-
             #define D2D_INPUT_COUNT 0
 
             #include "d2d1effecthelpers.hlsli"

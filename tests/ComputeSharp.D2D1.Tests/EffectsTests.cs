@@ -12,7 +12,6 @@ using SixLabors.ImageSharp.Processing;
 namespace ComputeSharp.D2D1.Tests;
 
 [TestClass]
-[TestCategory("Effects")]
 public class EffectsTests
 {
     [AssemblyInitialize]
@@ -34,11 +33,23 @@ public class EffectsTests
     }
 
     [TestMethod]
+    public void InvertWithUserTypeWithConstructor()
+    {
+        D2D1TestRunner.RunAndCompareShader(new InvertWithUserTypeWithConstructorEffect(), null, "Landscape.png", "Landscape_Inverted.png");
+    }
+
+    [TestMethod]
+    public void InvertWithUserTypeAndMutuallyInvokingMethods()
+    {
+        D2D1TestRunner.RunAndCompareShader(new InvertWithUserTypeAndMutuallyInvokingMethods(), null, "Landscape.png", "Landscape_Inverted.png");
+    }
+
+    [TestMethod]
     public void Pixelate()
     {
         D2D1TestRunner.RunAndCompareShader(
             new PixelateEffect(new PixelateEffect.Constants(1280, 840, 16)),
-            D2D1TransformMapperFactory<PixelateEffect>.Inflate(16),
+            D2D1DrawTransformMapper<PixelateEffect>.Inflate(16),
             "Landscape.png",
             "Landscape_Pixelate.png");
     }

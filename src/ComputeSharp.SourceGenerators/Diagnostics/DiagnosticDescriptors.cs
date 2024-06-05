@@ -515,17 +515,17 @@ partial class DiagnosticDescriptors
     /// <summary>
     /// Gets a <see cref="DiagnosticDescriptor"/> for an invalid shader static field type.
     /// <para>
-    /// Format: <c>"The compute shader of type {0} contains a static field "{1}" of an invalid type {2} (only primitive, vector and matrix types are supported)"</c>.
+    /// Format: <c>"The compute shader of type {0} contains or references a static field "{1}" of an invalid type {2} (only primitive, vector and matrix types are supported)"</c>.
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidShaderStaticFieldType = new(
         id: "CMPS0038",
         title: "Invalid shader static field type",
-        messageFormat: """The compute shader of type {0} contains a static field "{1}" of an invalid type {2} (only primitive, vector and matrix types are supported)""",
+        messageFormat: """The compute shader of type {0} contains or references a static field "{1}" of an invalid type {2} (only primitive, vector and matrix types are supported)""",
         category: "ComputeSharp.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "A type representing a compute shader contains a static field of a type that is not supported.",
+        description: "A type representing a compute shader contains or references a static field of a type that is not supported.",
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
@@ -560,17 +560,17 @@ partial class DiagnosticDescriptors
     /// <summary>
     /// Gets a <see cref="DiagnosticDescriptor"/> for a shader with a root signature that is too large.
     /// <para>
-    /// Format: <c>"The compute shader of type {0} has exceeded the maximum allowed size for captured values and resources"</c>.
+    /// Format: <c>"The compute shader of type {0} has exceeded the maximum allowed size for captured values and resources (the maximum size for the root signature is 64 DWORD constants, but the actual size was {1})"</c>.
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor ShaderDispatchDataSizeExceeded = new(
         id: "CMPS0041",
         title: "Shader dispatch data size exceeded",
-        messageFormat: "The compute shader of type {0} has exceeded the maximum allowed size for captured values and resources",
+        messageFormat: "The compute shader of type {0} has exceeded the maximum allowed size for captured values and resources (the maximum size for the root signature is 64 DWORD constants, but the actual size was {1})",
         category: "ComputeSharp.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "The compute shader of type {0} has exceeded the maximum allowed size for captured values and resources.",
+        description: "The compute shader of type {0} has exceeded the maximum allowed size for captured values and resources (the maximum size for the root signature is 64 DWORD constants).",
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
@@ -592,13 +592,13 @@ partial class DiagnosticDescriptors
     /// <summary>
     /// Gets a <see cref="DiagnosticDescriptor"/> for invalid thread group sizes.
     /// <para>
-    /// Format: <c>"The shader of type {0} is annotated with invalid [ThreadGroupSize] values"</c>.
+    /// Format: <c>"The [ThreadGroupSize] attribute on shader type {0} is using invalid thread group size values"</c>.
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidThreadGroupSizeAttributeValues = new(
         id: "CMPS0044",
         title: "Invalid values for [ThreadGroupSize] attribute",
-        messageFormat: "The shader of type {0} is annotated with invalid [ThreadGroupSize] values",
+        messageFormat: "The [ThreadGroupSize] attribute on shader type {0} is using invalid thread group size values",
         category: "ComputeSharp.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
@@ -627,7 +627,7 @@ partial class DiagnosticDescriptors
     /// Format: <c>"The shader of type {0} failed to compile due to an HLSL compiler error (Message: "{1}")"</c>.
     /// </para>
     /// </summary>
-    public static readonly DiagnosticDescriptor HlslBytecodeFailedWithDxcCompilationException = new(
+    public static readonly DiagnosticDescriptor HlslBytecodeFailedWithCompilationException = new(
         id: "CMPS0046",
         title: "HLSL bytecode compilation failed due to an HLSL compiler error",
         messageFormat: """The shader of type {0} failed to compile due to an HLSL compiler error (Message: "{1}")""",
@@ -656,13 +656,13 @@ partial class DiagnosticDescriptors
     /// <summary>
     /// Gets a <see cref="DiagnosticDescriptor"/> for shaders shader with an invalid DefaultThreadGroupSizes value.
     /// <para>
-    /// Format: <c>"The shader of type {0} is using an invalid DefaultThreadGroupSizes value in its [ThreadGroupSize] attribute"</c>.
+    /// Format: <c>"The [ThreadGroupSize] attribute on shader type {0} is using an invalid DefaultThreadGroupSizes value"</c>.
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidThreadGroupSizeAttributeDefaultThreadGroupSizes = new(
         id: "CMPS0048",
         title: "Invalid DefaultThreadGroupSizes value for [ThreadGroupSize] use",
-        messageFormat: "The shader of type {0} is using an invalid DefaultThreadGroupSizes value in its [ThreadGroupSize] attribute",
+        messageFormat: "The [ThreadGroupSize] attribute on shader type {0} is using an invalid DefaultThreadGroupSizes value",
         category: "ComputeSharp.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
@@ -670,19 +670,19 @@ partial class DiagnosticDescriptors
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
-    /// Gets a <see cref="DiagnosticDescriptor"/> for a method invocation that is not valid from a shader.
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a method or constructor invocation that is not valid from a shader.
     /// <para>
-    /// Format: <c>"The method {0} cannot be used in a shader (methods need to either be HLSL intrinsics or with source available for analysis)"</c>.
+    /// Format: <c>"The method or constructor {0} cannot be used in a shader (methods or constructors need to either be HLSL intrinsics or with source available for analysis)"</c>.
     /// </para>
     /// </summary>
-    public static readonly DiagnosticDescriptor InvalidMethodCall = new(
+    public static readonly DiagnosticDescriptor InvalidMethodOrConstructorCall = new(
         id: "CMPS0049",
-        title: "Invalid method invocation from a shader",
-        messageFormat: "The method {0} cannot be used in a shader (methods need to either be HLSL intrinsics or with source available for analysis)",
+        title: "Invalid method or constructor invocation from a shader",
+        messageFormat: "The method or constructor {0} cannot be used in a shader (methods or constructors need to either be HLSL intrinsics or with source available for analysis)",
         category: "ComputeSharp.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "Shaders can only invoke methods that are either HLSL intrinsics or with source available for analysis.",
+        description: "Shaders can only invoke methods or constructors that are either HLSL intrinsics or with source available for analysis.",
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
@@ -694,11 +694,11 @@ partial class DiagnosticDescriptors
     public static readonly DiagnosticDescriptor InvalidDiscoveredType = new(
         id: "CMPS0050",
         title: "Invalid discovered type",
-        messageFormat: "The compute shader or method {0} uses the invalid type {1} (only some .NET primitives and vector types, HLSL primitive, vector and matrix types, and custom types containing these types can be used, and bool fields in custom struct types have to be replaced with the ComputeSharp.Bool type for alignment reasons)",
+        messageFormat: "The compute shader or method {0} uses the invalid type {1} (only some .NET primitive types, HLSL primitive, vector and matrix types, and custom types containing these types can be used, and bool fields in custom struct types have to be replaced with the ComputeSharp.Bool type for alignment reasons)",
         category: "ComputeSharp.Shaders",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "Shaders and shader methods can only use supported types (some .NET primitives and vector types, HLSL primitive, vector and matrix types, and custom types containing these types can be used, and bool fields in custom struct types have to be replaced with the ComputeSharp.Bool type for alignment reasons).",
+        description: "Shaders and shader methods can only use supported types (some .NET primitive types, HLSL primitive, vector and matrix types, and custom types containing these types can be used, and bool fields in custom struct types have to be replaced with the ComputeSharp.Bool type for alignment reasons).",
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 
     /// <summary>
@@ -855,5 +855,82 @@ partial class DiagnosticDescriptors
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
         description: "A collection expression cannot be used in a compute shader.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a constructor with a base constructor declaration.
+    /// <para>
+    /// Format: <c>"The constructor {0} has a base constructor declaration, which cannot be used in a shader (only standalone constructors are allowed)"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidBaseConstructorDeclaration = new(
+        id: "CMPS0061",
+        title: "Invalid base constructor declaration",
+        messageFormat: "The constructor {0} has a base constructor declaration, which cannot be used in a shader (only standalone constructors are allowed)",
+        category: "ComputeSharp.Shaders",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Only standalone constructors (with no base constructor declaration) can be used in a shader.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a <see langword="this"/> expression.
+    /// </summary>
+    public static readonly DiagnosticDescriptor ThisExpression = new(
+        id: "CMPS0062",
+        title: "Invalid 'this' expression",
+        messageFormat: "A compute shader cannot use a 'this' expression outside of member accesses (such as 'this.field')",
+        category: "ComputeSharp.Shaders",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "A compute shader cannot use a 'this' expression outside of member accesses (such as 'this.field').",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for an invocation of a <c>Math</c> or <c>MathF</c> API.
+    /// <para>
+    /// Format: <c>"The method {0} cannot be used in a shader, use equivalent APIs from the Hlsl type instead"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidMathOrMathFCall = new(
+        id: "CMPS0063",
+        title: "Invalid Math or MathF invocation from a shader",
+        messageFormat: "The method {0} cannot be used in a shader, use equivalent APIs from the Hlsl type instead",
+        category: "ComputeSharp.Shaders",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Methods from the Math and MathF types cannot be used in a shader, and equivalent APIs from the Hlsl type should be used instead.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a shader missing [RequiresDoublePrecisionSupport].
+    /// <para>
+    /// Format: <c>"The shader {0} requires double precision support, but it does not have the [RequiresDoublePrecisionSupport] attribute on it (adding the attribute is necessary to explicitly opt-in to that functionality)"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor MissingRequiresDoublePrecisionSupportAttribute = new(
+        id: "CMPS0064",
+        title: "Missing [RequiresDoublePrecisionSupport] attribute",
+        messageFormat: "The shader {0} requires double precision support, but it does not have the [RequiresDoublePrecisionSupport] attribute on it (adding the attribute is necessary to explicitly opt-in to that functionality)",
+        category: "ComputeSharp.Shaders",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Shaders performing double precision operations must be annotated with [RequiresDoublePrecisionSupport] to explicitly opt-in to that functionality.",
+        helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for a shader is unnecessarily using [RequiresDoublePrecisionSupportAttribute].
+    /// <para>
+    /// Format: <c>"The shader {0} does not require double precision support, but it has the [RequiresDoublePrecisionSupport] attribute on it (using the attribute is not needed if the shader is not performing any double precision operations)"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor UnnecessaryRequiresDoublePrecisionSupportAttribute = new(
+        id: "CMPS0065",
+        title: "Unnecessary [RequiresDoublePrecisionSupport] attribute",
+        messageFormat: "The shader {0} does not require double precision support, but it has the [RequiresDoublePrecisionSupport] attribute on it (using the attribute is not needed if the shader is not performing any double precision operations)",
+        category: "ComputeSharp.Shaders",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "Shaders not performing any double precision operations should not be annotated with [RequiresDoublePrecisionSupport], as the attribute is not needed in that case.",
         helpLinkUri: "https://github.com/Sergio0694/ComputeSharp");
 }

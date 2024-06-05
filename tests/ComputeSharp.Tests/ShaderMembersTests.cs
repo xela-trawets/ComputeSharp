@@ -8,7 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ComputeSharp.Tests;
 
 [TestClass]
-[TestCategory("ShaderMembers")]
 public partial class ShaderMembersTests
 {
     [CombinatorialTestMethod]
@@ -123,7 +122,7 @@ public partial class ShaderMembersTests
         public readonly bool g;
         public readonly bool2 h;
         public readonly int i;
-        public readonly bool j;
+        public readonly ComputeSharp.Bool j; // See https://github.com/Sergio0694/ComputeSharp/issues/727
 
         public void Execute()
         {

@@ -16,12 +16,12 @@ internal static partial class HlslKnownKeywords
     /// <summary>
     /// The mapping of known HLSL keywords.
     /// </summary>
-    private static readonly IReadOnlyCollection<string> KnownKeywords = BuildKnownKeywordsMap();
+    private static readonly HashSet<string> KnownKeywords = BuildKnownKeywordsMap();
 
     /// <summary>
     /// Builds the mapping of all known HLSL keywords.
     /// </summary>
-    private static IReadOnlyCollection<string> BuildKnownKeywordsMap()
+    private static HashSet<string> BuildKnownKeywordsMap()
     {
         // HLSL keywords
         HashSet<string> knownKeywords = new(
@@ -47,7 +47,7 @@ internal static partial class HlslKnownKeywords
         ]);
 
         // HLSL primitive names
-        foreach (Type? type in HlslKnownTypes.KnownVectorTypes.Concat(HlslKnownTypes.KnownMatrixTypes))
+        foreach (Type? type in HlslKnownTypes.EnumerateKnownVectorTypes().Concat(HlslKnownTypes.EnumerateKnownMatrixTypes()))
         {
             _ = knownKeywords.Add(type.Name.ToLowerInvariant());
         }

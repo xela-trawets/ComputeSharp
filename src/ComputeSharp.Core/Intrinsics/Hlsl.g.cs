@@ -1688,6 +1688,253 @@ partial class Hlsl
     public static bool All(Bool4x4 x) => default;
 
     /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool2 And(Bool2 left, Bool2 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool3 And(Bool3 left, Bool3 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool4 And(Bool4 left, Bool4 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool1x1 And(Bool1x1 left, Bool1x1 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool1x2 And(Bool1x2 left, Bool1x2 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool1x3 And(Bool1x3 left, Bool1x3 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool1x4 And(Bool1x4 left, Bool1x4 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool2x1 And(Bool2x1 left, Bool2x1 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool2x2 And(Bool2x2 left, Bool2x2 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool2x3 And(Bool2x3 left, Bool2x3 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool2x4 And(Bool2x4 left, Bool2x4 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool3x1 And(Bool3x1 left, Bool3x1 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool3x2 And(Bool3x2 left, Bool3x2 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool3x3 And(Bool3x3 left, Bool3x3 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool3x4 And(Bool3x4 left, Bool3x4 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool4x1 And(Bool4x1 left, Bool4x1 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool4x2 And(Bool4x2 left, Bool4x2 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool4x3 And(Bool4x3 left, Bool4x3 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'AND' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__And")]
+    public static Bool4x4 And(Bool4x4 left, Bool4x4 right) => default;
+
+    /// <summary>
     /// Determines if any components of the specified value are non-zero.
     /// </summary>
     /// <param name="x">The specified value.</param>
@@ -7510,6 +7757,286 @@ partial class Hlsl
     /// </remarks>
     [HlslIntrinsicName("exp2")]
     public static Float4x4 Exp2(Float4x4 x) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static float FaceForward(float n, float i, float ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float2 FaceForward(Float2 n, Float2 i, Float2 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float3 FaceForward(Float3 n, Float3 i, Float3 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float4 FaceForward(Float4 n, Float4 i, Float4 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float1x1 FaceForward(Float1x1 n, Float1x1 i, Float1x1 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float1x2 FaceForward(Float1x2 n, Float1x2 i, Float1x2 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float1x3 FaceForward(Float1x3 n, Float1x3 i, Float1x3 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float1x4 FaceForward(Float1x4 n, Float1x4 i, Float1x4 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float2x1 FaceForward(Float2x1 n, Float2x1 i, Float2x1 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float2x2 FaceForward(Float2x2 n, Float2x2 i, Float2x2 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float2x3 FaceForward(Float2x3 n, Float2x3 i, Float2x3 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float2x4 FaceForward(Float2x4 n, Float2x4 i, Float2x4 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float3x1 FaceForward(Float3x1 n, Float3x1 i, Float3x1 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float3x2 FaceForward(Float3x2 n, Float3x2 i, Float3x2 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float3x3 FaceForward(Float3x3 n, Float3x3 i, Float3x3 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float3x4 FaceForward(Float3x4 n, Float3x4 i, Float3x4 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float4x1 FaceForward(Float4x1 n, Float4x1 i, Float4x1 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float4x2 FaceForward(Float4x2 n, Float4x2 i, Float4x2 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float4x3 FaceForward(Float4x3 n, Float4x3 i, Float4x3 ng) => default;
+
+    /// <summary>
+    /// Flips the surface-normal (if needed) to face in a direction opposite to <paramref name="i"/>, returns the result in <paramref name="n"/>.
+    /// </summary>
+    /// <param name="n">The resulting floating-point surface-normal vector.</param>
+    /// <param name="i">A floating-point, incident vector that points from the view position to the shading position.</param>
+    /// <param name="ng">A floating-point surface-normal vector.</param>
+    /// <returns>A floating-point, surface normal vector that is facing the view direction.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://docs.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-faceforward"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("faceforward")]
+    public static Float4x4 FaceForward(Float4x4 n, Float4x4 i, Float4x4 ng) => default;
 
     /// <summary>
     /// Gets the location of the first set bit starting from the highest order bit and working downward, per component.
@@ -17964,6 +18491,253 @@ partial class Hlsl
     public static Float4 Normalize(Float4 x) => default;
 
     /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool2 Or(Bool2 left, Bool2 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool3 Or(Bool3 left, Bool3 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool4 Or(Bool4 left, Bool4 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool1x1 Or(Bool1x1 left, Bool1x1 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool1x2 Or(Bool1x2 left, Bool1x2 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool1x3 Or(Bool1x3 left, Bool1x3 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool1x4 Or(Bool1x4 left, Bool1x4 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool2x1 Or(Bool2x1 left, Bool2x1 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool2x2 Or(Bool2x2 left, Bool2x2 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool2x3 Or(Bool2x3 left, Bool2x3 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool2x4 Or(Bool2x4 left, Bool2x4 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool3x1 Or(Bool3x1 left, Bool3x1 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool3x2 Or(Bool3x2 left, Bool3x2 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool3x3 Or(Bool3x3 left, Bool3x3 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool3x4 Or(Bool3x4 left, Bool3x4 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool4x1 Or(Bool4x1 left, Bool4x1 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool4x2 Or(Bool4x2 left, Bool4x2 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool4x3 Or(Bool4x3 left, Bool4x3 right) => default;
+
+    /// <summary>
+    /// Performs a vectorized, non short-circuiting boolean 'OR' operation between two operands.
+    /// </summary>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements resulting from the boolean operation.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Or")]
+    public static Bool4x4 Or(Bool4x4 left, Bool4x4 right) => default;
+
+    /// <summary>
     /// Returns the specified value raised to the specified power.
     /// </summary>
     /// <param name="x">The specified value.</param>
@@ -20490,6 +21264,1336 @@ partial class Hlsl
     /// </remarks>
     [HlslIntrinsicName("saturate")]
     public static Double4x4 Saturate(Double4x4 x) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool2 Select(Bool2 mask, Bool2 left, Bool2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool3 Select(Bool3 mask, Bool3 left, Bool3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool4 Select(Bool4 mask, Bool4 left, Bool4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool1x1 Select(Bool1x1 mask, Bool1x1 left, Bool1x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool1x2 Select(Bool1x2 mask, Bool1x2 left, Bool1x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool1x3 Select(Bool1x3 mask, Bool1x3 left, Bool1x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool1x4 Select(Bool1x4 mask, Bool1x4 left, Bool1x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool2x1 Select(Bool2x1 mask, Bool2x1 left, Bool2x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool2x2 Select(Bool2x2 mask, Bool2x2 left, Bool2x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool2x3 Select(Bool2x3 mask, Bool2x3 left, Bool2x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool2x4 Select(Bool2x4 mask, Bool2x4 left, Bool2x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool3x1 Select(Bool3x1 mask, Bool3x1 left, Bool3x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool3x2 Select(Bool3x2 mask, Bool3x2 left, Bool3x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool3x3 Select(Bool3x3 mask, Bool3x3 left, Bool3x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool3x4 Select(Bool3x4 mask, Bool3x4 left, Bool3x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool4x1 Select(Bool4x1 mask, Bool4x1 left, Bool4x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool4x2 Select(Bool4x2 mask, Bool4x2 left, Bool4x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool4x3 Select(Bool4x3 mask, Bool4x3 left, Bool4x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Bool4x4 Select(Bool4x4 mask, Bool4x4 left, Bool4x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float2 Select(Bool2 mask, Float2 left, Float2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float3 Select(Bool3 mask, Float3 left, Float3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float4 Select(Bool4 mask, Float4 left, Float4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float1x1 Select(Bool1x1 mask, Float1x1 left, Float1x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float1x2 Select(Bool1x2 mask, Float1x2 left, Float1x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float1x3 Select(Bool1x3 mask, Float1x3 left, Float1x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float1x4 Select(Bool1x4 mask, Float1x4 left, Float1x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float2x1 Select(Bool2x1 mask, Float2x1 left, Float2x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float2x2 Select(Bool2x2 mask, Float2x2 left, Float2x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float2x3 Select(Bool2x3 mask, Float2x3 left, Float2x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float2x4 Select(Bool2x4 mask, Float2x4 left, Float2x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float3x1 Select(Bool3x1 mask, Float3x1 left, Float3x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float3x2 Select(Bool3x2 mask, Float3x2 left, Float3x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float3x3 Select(Bool3x3 mask, Float3x3 left, Float3x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float3x4 Select(Bool3x4 mask, Float3x4 left, Float3x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float4x1 Select(Bool4x1 mask, Float4x1 left, Float4x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float4x2 Select(Bool4x2 mask, Float4x2 left, Float4x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float4x3 Select(Bool4x3 mask, Float4x3 left, Float4x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Float4x4 Select(Bool4x4 mask, Float4x4 left, Float4x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double2 Select(Bool2 mask, Double2 left, Double2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double3 Select(Bool3 mask, Double3 left, Double3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double4 Select(Bool4 mask, Double4 left, Double4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double1x1 Select(Bool1x1 mask, Double1x1 left, Double1x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double1x2 Select(Bool1x2 mask, Double1x2 left, Double1x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double1x3 Select(Bool1x3 mask, Double1x3 left, Double1x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double1x4 Select(Bool1x4 mask, Double1x4 left, Double1x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double2x1 Select(Bool2x1 mask, Double2x1 left, Double2x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double2x2 Select(Bool2x2 mask, Double2x2 left, Double2x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double2x3 Select(Bool2x3 mask, Double2x3 left, Double2x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double2x4 Select(Bool2x4 mask, Double2x4 left, Double2x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double3x1 Select(Bool3x1 mask, Double3x1 left, Double3x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double3x2 Select(Bool3x2 mask, Double3x2 left, Double3x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double3x3 Select(Bool3x3 mask, Double3x3 left, Double3x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double3x4 Select(Bool3x4 mask, Double3x4 left, Double3x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double4x1 Select(Bool4x1 mask, Double4x1 left, Double4x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double4x2 Select(Bool4x2 mask, Double4x2 left, Double4x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double4x3 Select(Bool4x3 mask, Double4x3 left, Double4x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Double4x4 Select(Bool4x4 mask, Double4x4 left, Double4x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int2 Select(Bool2 mask, Int2 left, Int2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int3 Select(Bool3 mask, Int3 left, Int3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int4 Select(Bool4 mask, Int4 left, Int4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int1x1 Select(Bool1x1 mask, Int1x1 left, Int1x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int1x2 Select(Bool1x2 mask, Int1x2 left, Int1x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int1x3 Select(Bool1x3 mask, Int1x3 left, Int1x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int1x4 Select(Bool1x4 mask, Int1x4 left, Int1x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int2x1 Select(Bool2x1 mask, Int2x1 left, Int2x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int2x2 Select(Bool2x2 mask, Int2x2 left, Int2x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int2x3 Select(Bool2x3 mask, Int2x3 left, Int2x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int2x4 Select(Bool2x4 mask, Int2x4 left, Int2x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int3x1 Select(Bool3x1 mask, Int3x1 left, Int3x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int3x2 Select(Bool3x2 mask, Int3x2 left, Int3x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int3x3 Select(Bool3x3 mask, Int3x3 left, Int3x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int3x4 Select(Bool3x4 mask, Int3x4 left, Int3x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int4x1 Select(Bool4x1 mask, Int4x1 left, Int4x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int4x2 Select(Bool4x2 mask, Int4x2 left, Int4x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int4x3 Select(Bool4x3 mask, Int4x3 left, Int4x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static Int4x4 Select(Bool4x4 mask, Int4x4 left, Int4x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt2 Select(Bool2 mask, UInt2 left, UInt2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt3 Select(Bool3 mask, UInt3 left, UInt3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt4 Select(Bool4 mask, UInt4 left, UInt4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt1x1 Select(Bool1x1 mask, UInt1x1 left, UInt1x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt1x2 Select(Bool1x2 mask, UInt1x2 left, UInt1x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt1x3 Select(Bool1x3 mask, UInt1x3 left, UInt1x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt1x4 Select(Bool1x4 mask, UInt1x4 left, UInt1x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt2x1 Select(Bool2x1 mask, UInt2x1 left, UInt2x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt2x2 Select(Bool2x2 mask, UInt2x2 left, UInt2x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt2x3 Select(Bool2x3 mask, UInt2x3 left, UInt2x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt2x4 Select(Bool2x4 mask, UInt2x4 left, UInt2x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt3x1 Select(Bool3x1 mask, UInt3x1 left, UInt3x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt3x2 Select(Bool3x2 mask, UInt3x2 left, UInt3x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt3x3 Select(Bool3x3 mask, UInt3x3 left, UInt3x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt3x4 Select(Bool3x4 mask, UInt3x4 left, UInt3x4 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt4x1 Select(Bool4x1 mask, UInt4x1 left, UInt4x1 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt4x2 Select(Bool4x2 mask, UInt4x2 left, UInt4x2 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt4x3 Select(Bool4x3 mask, UInt4x3 left, UInt4x3 right) => default;
+
+    /// <summary>
+    /// Creates a new vector or matrix value with elements selected between two specified source vector or matrix values based on an input boolean mask.
+    /// </summary>
+    /// <param name="mask">The boolean mask used to drive selection.</param>
+    /// <param name="left">The first input vector or matrix value.</param>
+    /// <param name="right">The second input vector or matrix value.</param>
+    /// <returns>The new vector or matrix value with elements selected based on the input mask.</returns>
+    /// <remarks>
+    /// For more info, see <see href="https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-operators#boolean-math-operators"/>.
+    /// <para>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</para>
+    /// </remarks>
+    [HlslIntrinsicName("__Select")]
+    public static UInt4x4 Select(Bool4x4 mask, UInt4x4 left, UInt4x4 right) => default;
 
     /// <summary>
     /// Returns the sign of the input value.

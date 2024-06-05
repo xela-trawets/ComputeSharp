@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using ComputeSharp.D2D1;
 using ComputeSharp.D2D1.Interop;
 using ComputeSharp.D2D1.Tests.Effects;
 using ComputeSharp.D2D1.Tests.Helpers;
@@ -7,12 +8,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TerraFX.Interop.DirectX;
 using TerraFX.Interop.Windows;
 
+[assembly: D2DEnableRuntimeCompilation]
+
 #pragma warning disable IDE0022, IDE0044
 
 namespace ComputeSharp.D2D1.Tests;
 
 [TestClass]
-[TestCategory("D2D1PixelShaderEffect")]
 public partial class D2D1PixelShaderEffectTests
 {
     [TestMethod]
@@ -96,7 +98,7 @@ public partial class D2D1PixelShaderEffectTests
     [ExpectedException(typeof(ArgumentNullException), AllowDerivedTypes = false)]
     public unsafe void SetTransformMapperForD2D1Effect_RCW_NullD2D1ResourceTextureManager()
     {
-        D2D1PixelShaderEffect.SetTransformMapperForD2D1Effect((void*)1, (D2D1TransformMapper<NullConstantBufferShader>)null!);
+        D2D1PixelShaderEffect.SetTransformMapperForD2D1Effect((void*)1, (D2D1DrawTransformMapper<NullConstantBufferShader>)null!);
     }
 
     [TestMethod]

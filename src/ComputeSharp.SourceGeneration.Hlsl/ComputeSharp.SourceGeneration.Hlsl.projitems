@@ -9,6 +9,7 @@
     <Import_RootNamespace>ComputeSharp.SourceGeneration.Hlsl</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\WellKnownTrackingNames.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Analyzers\NotAccessibleFieldTypeInGeneratedShaderDescriptorAttributeTargetAnalyzerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Analyzers\NotReadOnlyShaderTypeWithFieldsAnalyzerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Analyzers\NotAccessibleGeneratedShaderDescriptorAttributeTargetAnalyzerBase.cs" />
@@ -28,8 +29,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\FieldInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\HlslBytecodeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IConstantBufferInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TypeAliases.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SyntaxProcessors\HlslBytecodeSyntaxProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SyntaxProcessors\ConstantBufferSyntaxProcessor.Generation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SyntaxProcessors\HlslSourceSyntaxProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SyntaxProcessors\HlslDefinitionsSyntaxProcessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SyntaxRewriters\HlslSourceRewriter.Tracking.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SyntaxRewriters\HlslSourceRewriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SyntaxRewriters\HlslSourceRewriter.Diagnostics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SyntaxRewriters\ShaderSourceRewriter.cs" />

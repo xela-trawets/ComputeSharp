@@ -57,7 +57,9 @@ partial class ComputeShaderDescriptorGenerator
             HashSet<INamedTypeSymbol> discoveredTypes = new(SymbolEqualityComparer.Default);
             Dictionary<IMethodSymbol, MethodDeclarationSyntax> staticMethods = new(SymbolEqualityComparer.Default);
             Dictionary<IMethodSymbol, MethodDeclarationSyntax> instanceMethods = new(SymbolEqualityComparer.Default);
+            Dictionary<IMethodSymbol, (MethodDeclarationSyntax, MethodDeclarationSyntax)> constructors = new(SymbolEqualityComparer.Default);
             Dictionary<IFieldSymbol, string> constantDefinitions = new(SymbolEqualityComparer.Default);
+            Dictionary<IFieldSymbol, HlslStaticField> staticFieldDefinitions = new(SymbolEqualityComparer.Default);
 
             // Setup the semantic model and basic properties
             INamedTypeSymbol? pixelShaderSymbol = structDeclarationSymbol.AllInterfaces.FirstOrDefault(static interfaceSymbol => interfaceSymbol is { IsGenericType: true, Name: "IComputeShader" });
@@ -66,15 +68,17 @@ partial class ComputeShaderDescriptorGenerator
 
             token.ThrowIfCancellationRequested();
 
-            (ImmutableArray<(string MetadataName, string Name, string HlslType)> resourceFields, ImmutableArray<(string Name, string HlslType)> valueFields) = GetInstanceFields(
+            GetInstanceFields(
                 diagnostics,
                 structDeclarationSymbol,
                 discoveredTypes,
-                isComputeShader);
+                isComputeShader,
+                out ImmutableArray<HlslResourceField> resourceFields,
+                out ImmutableArray<HlslValueField> valueFields);
 
             token.ThrowIfCancellationRequested();
 
-            ImmutableArray<(string Name, string Type, int? Count)> sharedBuffers = GetSharedBuffers(
+            ImmutableArray<HlslSharedBuffer> sharedBuffers = GetSharedBuffers(
                 diagnostics,
                 structDeclarationSymbol,
                 discoveredTypes);
@@ -83,40 +87,45 @@ partial class ComputeShaderDescriptorGenerator
 
             SemanticModelProvider semanticModelProvider = new(compilation);
 
-            (string entryPoint, ImmutableArray<(string Signature, string Definition)> processedMethods, isSamplerUsed) = GetProcessedMethods(
+            (string entryPoint, ImmutableArray<HlslMethod> processedMethods, isSamplerUsed) = GetProcessedMethods(
                 diagnostics,
                 structDeclarationSymbol,
                 semanticModelProvider,
                 discoveredTypes,
                 staticMethods,
                 instanceMethods,
+                constructors,
                 constantDefinitions,
+                staticFieldDefinitions,
                 isComputeShader,
                 token);
 
             token.ThrowIfCancellationRequested();
 
-            (string, string)? implicitSamplerField = isSamplerUsed ? ("SamplerState", "__sampler") : default((string, string)?);
-            ImmutableArray<(string Name, string TypeDeclaration, string? Assignment)> staticFields = GetStaticFields(
+            ImmutableArray<HlslStaticField> staticFields = GetStaticFields(
                 diagnostics,
                 semanticModelProvider,
                 structDeclarationSymbol,
                 discoveredTypes,
                 constantDefinitions,
+                staticFieldDefinitions,
                 token);
 
             token.ThrowIfCancellationRequested();
 
             // Process the discovered types and constants
-            ImmutableArray<(string Name, string Definition)> declaredTypes = HlslDefinitionsSyntaxProcessor.GetDeclaredTypes(
+            HlslDefinitionsSyntaxProcessor.GetDeclaredTypes(
                 diagnostics,
                 structDeclarationSymbol,
                 discoveredTypes,
-                instanceMethods);
+                instanceMethods,
+                constructors,
+                out ImmutableArray<HlslUserType> typeDeclarations,
+                out ImmutableArray<string> typeMethodDeclarations);
 
             token.ThrowIfCancellationRequested();
 
-            ImmutableArray<(string Name, string Value)> definedConstants = HlslDefinitionsSyntaxProcessor.GetDefinedConstants(constantDefinitions);
+            ImmutableArray<HlslConstant> definedConstants = HlslDefinitionsSyntaxProcessor.GetDefinedConstants(constantDefinitions);
 
             token.ThrowIfCancellationRequested();
 
@@ -129,12 +138,13 @@ partial class ComputeShaderDescriptorGenerator
                 threadsY,
                 threadsZ,
                 definedConstants,
-                declaredTypes,
                 resourceFields,
                 valueFields,
                 staticFields,
                 sharedBuffers,
                 processedMethods,
+                typeDeclarations,
+                typeMethodDeclarations,
                 isComputeShader,
                 implicitTextureType,
                 isSamplerUsed,
@@ -148,18 +158,18 @@ partial class ComputeShaderDescriptorGenerator
         /// <param name="structDeclarationSymbol">The input <see cref="INamedTypeSymbol"/> instance to process.</param>
         /// <param name="types">The collection of currently discovered types.</param>
         /// <param name="isComputeShader">Indicates whether or not <paramref name="structDeclarationSymbol"/> represents a compute shader.</param>
-        /// <returns>A sequence of captured fields in <paramref name="structDeclarationSymbol"/>.</returns>
-        private static (
-            ImmutableArray<(string MetadataName, string Name, string HlslType)>,
-            ImmutableArray<(string Name, string HlslType)>)
-            GetInstanceFields(
-                ImmutableArrayBuilder<DiagnosticInfo> diagnostics,
-                INamedTypeSymbol structDeclarationSymbol,
-                ICollection<INamedTypeSymbol> types,
-                bool isComputeShader)
+        /// <param name="resourceFields">The resulting sequence of resource instance fields for the current shader.</param>
+        /// <param name="valueFields">The resulting sequence of value instance fields for the current shader.</param>
+        private static void GetInstanceFields(
+            ImmutableArrayBuilder<DiagnosticInfo> diagnostics,
+            INamedTypeSymbol structDeclarationSymbol,
+            ICollection<INamedTypeSymbol> types,
+            bool isComputeShader,
+            out ImmutableArray<HlslResourceField> resourceFields,
+            out ImmutableArray<HlslValueField> valueFields)
         {
-            using ImmutableArrayBuilder<(string, string, string)> resources = new();
-            using ImmutableArrayBuilder<(string, string)> values = new();
+            using ImmutableArrayBuilder<HlslResourceField> resources = new();
+            using ImmutableArrayBuilder<HlslValueField> values = new();
 
             bool hlslResourceFound = false;
 
@@ -237,7 +247,8 @@ partial class ComputeShaderDescriptorGenerator
                 diagnostics.Add(MissingShaderResources, structDeclarationSymbol, structDeclarationSymbol);
             }
 
-            return (resources.ToImmutable(), values.ToImmutable());
+            resourceFields = resources.ToImmutable();
+            valueFields = values.ToImmutable();
         }
 
         /// <summary>
@@ -248,62 +259,56 @@ partial class ComputeShaderDescriptorGenerator
         /// <param name="structDeclarationSymbol">The type symbol for the shader type.</param>
         /// <param name="discoveredTypes">The collection of currently discovered types.</param>
         /// <param name="constantDefinitions">The collection of discovered constant definitions.</param>
+        /// <param name="staticFieldDefinitions">The collection of discovered static field definitions.</param>
         /// <param name="token">The <see cref="CancellationToken"/> used to cancel the operation, if needed.</param>
         /// <returns>A sequence of static constant fields in <paramref name="structDeclarationSymbol"/>.</returns>
-        private static ImmutableArray<(string Name, string TypeDeclaration, string? Assignment)> GetStaticFields(
+        private static ImmutableArray<HlslStaticField> GetStaticFields(
             ImmutableArrayBuilder<DiagnosticInfo> diagnostics,
             SemanticModelProvider semanticModel,
             INamedTypeSymbol structDeclarationSymbol,
             ICollection<INamedTypeSymbol> discoveredTypes,
             IDictionary<IFieldSymbol, string> constantDefinitions,
+            IDictionary<IFieldSymbol, HlslStaticField> staticFieldDefinitions,
             CancellationToken token)
         {
-            using ImmutableArrayBuilder<(string, string, string?)> builder = new();
+            using ImmutableArrayBuilder<HlslStaticField> builder = new();
 
             foreach (ISymbol memberSymbol in structDeclarationSymbol.GetMembers())
             {
-                // Find all declared static fields in the type
+                // Pre-filter fields that cannot be valid, to reduce the calls to check the [GroupShared] attribute
                 if (memberSymbol is not IFieldSymbol { IsImplicitlyDeclared: false, IsStatic: true, IsConst: false, } fieldSymbol)
                 {
                     continue;
                 }
 
-                if (!fieldSymbol.TryGetSyntaxNode(token, out VariableDeclaratorSyntax? variableDeclarator))
-                {
-                    continue;
-                }
-
+                // Ignore [GroupShared] fields, they'll be gathered in a separate rewriting step
                 if (fieldSymbol.TryGetAttributeWithFullyQualifiedMetadataName("ComputeSharp.GroupSharedAttribute", out _))
                 {
                     continue;
                 }
 
-                // Constant properties must be of a primitive, vector or matrix type
-                if (fieldSymbol.Type is not INamedTypeSymbol typeSymbol ||
-                    !HlslKnownTypes.IsKnownHlslType(typeSymbol.GetFullyQualifiedMetadataName()))
-                {
-                    diagnostics.Add(InvalidShaderStaticFieldType, variableDeclarator, structDeclarationSymbol, fieldSymbol.Name, fieldSymbol.Type);
-
-                    continue;
-                }
-
-                _ = HlslKnownKeywords.TryGetMappedName(fieldSymbol.Name, out string? mapping);
-
-                string typeDeclaration = fieldSymbol.IsReadOnly switch
-                {
-                    true => $"static const {HlslKnownTypes.GetMappedName(typeSymbol)}",
-                    false => $"static {HlslKnownTypes.GetMappedName(typeSymbol)}"
-                };
-
-                StaticFieldRewriter staticFieldRewriter = new(
+                if (HlslDefinitionsSyntaxProcessor.TryGetStaticField(
+                    structDeclarationSymbol,
+                    fieldSymbol,
                     semanticModel,
                     discoveredTypes,
                     constantDefinitions,
-                    diagnostics);
+                    staticFieldDefinitions,
+                    diagnostics,
+                    token,
+                    out string? name,
+                    out string? typeDeclaration,
+                    out string? assignmentExpression,
+                    out _))
+                {
+                    builder.Add((name, typeDeclaration, assignmentExpression));
+                }
+            }
 
-                string? assignment = staticFieldRewriter.Visit(variableDeclarator)?.NormalizeWhitespace(eol: "\n").ToFullString();
-
-                builder.Add((mapping ?? fieldSymbol.Name, typeDeclaration, assignment));
+            // Also gather the external static fields
+            foreach (HlslStaticField externalField in staticFieldDefinitions.Values)
+            {
+                builder.Add(externalField);
             }
 
             return builder.ToImmutable();
@@ -316,12 +321,12 @@ partial class ComputeShaderDescriptorGenerator
         /// <param name="structDeclarationSymbol">The input <see cref="INamedTypeSymbol"/> instance to process.</param>
         /// <param name="types">The collection of currently discovered types.</param>
         /// <returns>A sequence of captured members in <paramref name="structDeclarationSymbol"/>.</returns>
-        private static ImmutableArray<(string Name, string Type, int? Count)> GetSharedBuffers(
+        private static ImmutableArray<HlslSharedBuffer> GetSharedBuffers(
             ImmutableArrayBuilder<DiagnosticInfo> diagnostics,
             INamedTypeSymbol structDeclarationSymbol,
             ICollection<INamedTypeSymbol> types)
         {
-            using ImmutableArrayBuilder<(string, string, int?)> builder = new();
+            using ImmutableArrayBuilder<HlslSharedBuffer> builder = new();
 
             foreach (ISymbol memberSymbol in structDeclarationSymbol.GetMembers())
             {
@@ -359,22 +364,26 @@ partial class ComputeShaderDescriptorGenerator
         /// <param name="discoveredTypes">The collection of currently discovered types.</param>
         /// <param name="staticMethods">The set of discovered and processed static methods.</param>
         /// <param name="instanceMethods">The collection of discovered instance methods for custom struct types.</param>
+        /// <param name="constructors">The collection of discovered constructors for custom struct types.</param>
         /// <param name="constantDefinitions">The collection of discovered constant definitions.</param>
+        /// <param name="staticFieldDefinitions">The collection of discovered static field definitions.</param>
         /// <param name="isComputeShader">Indicates whether or not <paramref name="structDeclarationSymbol"/> represents a compute shader.</param>
         /// <param name="token">The <see cref="CancellationToken"/> used to cancel the operation, if needed.</param>
         /// <returns>A sequence of processed methods in <paramref name="structDeclarationSymbol"/>, and the entry point.</returns>
-        private static (string EntryPoint, ImmutableArray<(string Signature, string Definition)> Methods, bool IsSamplerUser) GetProcessedMethods(
+        private static (string EntryPoint, ImmutableArray<HlslMethod> Methods, bool IsSamplerUser) GetProcessedMethods(
             ImmutableArrayBuilder<DiagnosticInfo> diagnostics,
             INamedTypeSymbol structDeclarationSymbol,
             SemanticModelProvider semanticModel,
             ICollection<INamedTypeSymbol> discoveredTypes,
             IDictionary<IMethodSymbol, MethodDeclarationSyntax> staticMethods,
             IDictionary<IMethodSymbol, MethodDeclarationSyntax> instanceMethods,
+            IDictionary<IMethodSymbol, (MethodDeclarationSyntax, MethodDeclarationSyntax)> constructors,
             IDictionary<IFieldSymbol, string> constantDefinitions,
+            IDictionary<IFieldSymbol, HlslStaticField> staticFieldDefinitions,
             bool isComputeShader,
             CancellationToken token)
         {
-            using ImmutableArrayBuilder<(string, string)> methods = new();
+            using ImmutableArrayBuilder<HlslMethod> methods = new();
 
             string? entryPoint = null;
             bool isSamplerUsed = false;
@@ -419,8 +428,11 @@ partial class ComputeShaderDescriptorGenerator
                     discoveredTypes,
                     staticMethods,
                     instanceMethods,
+                    constructors,
                     constantDefinitions,
+                    staticFieldDefinitions,
                     diagnostics,
+                    token,
                     isShaderEntryPoint);
 
                 // Rewrite the method syntax tree
@@ -477,13 +489,14 @@ partial class ComputeShaderDescriptorGenerator
         /// <param name="threadsX">The thread ids value for the X axis.</param>
         /// <param name="threadsY">The thread ids value for the Y axis.</param>
         /// <param name="threadsZ">The thread ids value for the Z axis.</param>
-        /// <param name="definedConstants">The sequence of defined constants for the shader.</param>
-        /// <param name="declaredTypes">The sequence of declared types used by the shader.</param>
+        /// <param name="definedConstants"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteTopDeclarations" path="/param[@name='definedConstants']/node()"/></param>
         /// <param name="resourceFields">The sequence of resource instance fields for the current shader.</param>
-        /// <param name="valueFields">The sequence of value instance fields for the current shader.</param>
-        /// <param name="staticFields">The sequence of static fields referenced by the shader.</param>
+        /// <param name="valueFields"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteCapturedFields" path="/param[@name='valueFields']/node()"/></param>
+        /// <param name="staticFields"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteTopDeclarations" path="/param[@name='staticFields']/node()"/></param>
         /// <param name="sharedBuffers">The sequence of shared buffers declared by the shader.</param>
-        /// <param name="processedMethods">The sequence of processed methods used by the shader.</param>
+        /// <param name="processedMethods"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteTopDeclarations" path="/param[@name='processedMethods']/node()"/></param>
+        /// <param name="typeDeclarations"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteTopDeclarations" path="/param[@name='typeDeclarations']/node()"/></param>
+        /// <param name="typeMethodDeclarations"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteMethodDeclarations" path="/param[@name='typeMethodDeclarations']/node()"/></param>
         /// <param name="isComputeShader">Whether or not the current shader type is a compute shader.</param>
         /// <param name="implicitTextureType">The type of the implicit target texture, if present.</param>
         /// <param name="isSamplerUsed">Whether the static sampler is used by the shader.</param>
@@ -493,180 +506,98 @@ partial class ComputeShaderDescriptorGenerator
             int threadsX,
             int threadsY,
             int threadsZ,
-            ImmutableArray<(string Name, string Value)> definedConstants,
-            ImmutableArray<(string Name, string Definition)> declaredTypes,
-            ImmutableArray<(string MetadataName, string Name, string HlslType)> resourceFields,
-            ImmutableArray<(string Name, string HlslType)> valueFields,
-            ImmutableArray<(string Name, string TypeDeclaration, string? Assignment)> staticFields,
-            ImmutableArray<(string Name, string Type, int? Count)> sharedBuffers,
-            ImmutableArray<(string Signature, string Definition)> processedMethods,
+            ImmutableArray<HlslConstant> definedConstants,
+            ImmutableArray<HlslResourceField> resourceFields,
+            ImmutableArray<HlslValueField> valueFields,
+            ImmutableArray<HlslStaticField> staticFields,
+            ImmutableArray<HlslSharedBuffer> sharedBuffers,
+            ImmutableArray<HlslMethod> processedMethods,
+            ImmutableArray<HlslUserType> typeDeclarations,
+            ImmutableArray<string> typeMethodDeclarations,
             bool isComputeShader,
             string? implicitTextureType,
             bool isSamplerUsed,
             string executeMethod)
         {
-            using ImmutableArrayBuilder<char> hlslBuilder = new();
-
-            void AppendLF()
-            {
-                hlslBuilder.Add('\n');
-            }
-
-            void AppendLineAndLF(string text)
-            {
-                hlslBuilder.AddRange(text.AsSpan());
-                hlslBuilder.Add('\n');
-            }
-
-            void AppendCharacterAndLF(char c)
-            {
-                hlslBuilder.Add(c);
-                hlslBuilder.Add('\n');
-            }
-
-            string FlushText()
-            {
-                string text = hlslBuilder.ToString();
-
-                hlslBuilder.Clear();
-
-                return text;
-            }
-
-            // Header
-            AppendLineAndLF("// ================================================");
-            AppendLineAndLF("//                  AUTO GENERATED");
-            AppendLineAndLF("// ================================================");
-            AppendLineAndLF("// This shader was created by ComputeSharp.");
-            AppendLineAndLF("// See: https://github.com/Sergio0694/ComputeSharp.");
+            using IndentedTextWriter writer = new();
 
             // Group size constants
-            AppendLF();
-            AppendLineAndLF($"#define __GroupSize__get_X {threadsX}");
-            AppendLineAndLF($"#define __GroupSize__get_Y {threadsY}");
-            AppendLineAndLF($"#define __GroupSize__get_Z {threadsZ}");
+            writer.WriteLine($"#define __GroupSize__get_X {threadsX}");
+            writer.WriteLine($"#define __GroupSize__get_Y {threadsY}");
+            writer.WriteLine($"#define __GroupSize__get_Z {threadsZ}");
 
-            // Define declarations
-            foreach ((string name, string value) in definedConstants)
-            {
-                AppendLineAndLF($"#define {name} {value}");
-            }
+            HlslSourceSyntaxProcessor.WriteTopDeclarations(
+                writer,
+                definedConstants,
+                staticFields,
+                processedMethods,
+                typeDeclarations,
+                includeTypeForwardDeclarations: true);
 
-            // Static fields
-            if (staticFields.Any())
-            {
-                AppendLF();
-
-                foreach ((string Name, string TypeDeclaration, string? Assignment) field in staticFields)
-                {
-                    if (field.Assignment is string assignment)
-                    {
-                        AppendLineAndLF($"{field.TypeDeclaration} {field.Name} = {assignment};");
-                    }
-                    else
-                    {
-                        AppendLineAndLF($"{field.TypeDeclaration} {field.Name};");
-                    }
-                }
-            }
-
-            // Declared types
-            foreach ((string _, string typeDefinition) in declaredTypes)
-            {
-                AppendLF();
-                AppendLineAndLF(typeDefinition);
-            }
+            writer.WriteLine("cbuffer _ : register(b0)");
 
             // Captured variables
-            AppendLF();
-            AppendLineAndLF("cbuffer _ : register(b0)");
-            AppendCharacterAndLF('{');
-            AppendLineAndLF("    uint __x;");
-            AppendLineAndLF("    uint __y;");
-
-            if (isComputeShader)
+            using (writer.WriteBlock())
             {
-                AppendLineAndLF("    uint __z;");
-            }
+                writer.WriteLine("uint __x;");
+                writer.WriteLine("uint __y;");
+                writer.WriteLineIf(isComputeShader, "uint __z;");
 
-            // User-defined values
-            foreach ((string fieldName, string fieldType) in valueFields)
-            {
-                AppendLineAndLF($"    {fieldType} {fieldName};");
+                HlslSourceSyntaxProcessor.WriteCapturedFields(writer, valueFields);
             }
-
-            AppendCharacterAndLF('}');
 
             int constantBuffersCount = 1;
             int readOnlyBuffersCount = 0;
             int readWriteBuffersCount = 0;
 
             // Optional implicit texture field
-            if (!isComputeShader)
-            {
-                AppendLF();
-                AppendLineAndLF($"{implicitTextureType} __outputTexture : register(u{readWriteBuffersCount++});");
-            }
+            writer.WriteLine(skipIfPresent: true);
+            writer.WriteLineIf(!isComputeShader, $"{implicitTextureType} __outputTexture : register(u{readWriteBuffersCount++});");
 
             // Optional sampler field
-            if (isSamplerUsed)
-            {
-                AppendLF();
-                AppendLineAndLF("SamplerState __sampler : register(s);");
-            }
+            writer.WriteLine(skipIfPresent: true);
+            writer.WriteLineIf(isSamplerUsed, "SamplerState __sampler : register(s);");
 
             // Resources
-            foreach ((string metadataName, string fieldName, string fieldType) in resourceFields)
+            foreach (HlslResourceField resourceField in resourceFields)
             {
-                if (HlslKnownTypes.IsConstantBufferType(metadataName))
+                writer.WriteLine(skipIfPresent: true);
+
+                if (HlslKnownTypes.IsConstantBufferType(resourceField.MetadataName))
                 {
-                    AppendLF();
-                    AppendLineAndLF($"cbuffer _{fieldName} : register(b{constantBuffersCount++})");
-                    AppendCharacterAndLF('{');
-                    AppendLineAndLF($"    {fieldType} {fieldName}[2];");
-                    AppendCharacterAndLF('}');
+                    writer.WriteLine($"cbuffer _{resourceField.Name} : register(b{constantBuffersCount++})");
+
+                    using (writer.WriteBlock())
+                    {
+                        writer.WriteLine($"{resourceField.Type} {resourceField.Name}[2];");
+                    }
                 }
-                else if (HlslKnownTypes.IsReadOnlyTypedResourceType(metadataName))
+                else if (HlslKnownTypes.IsReadOnlyTypedResourceType(resourceField.MetadataName))
                 {
-                    AppendLF();
-                    AppendLineAndLF($"{fieldType} {fieldName} : register(t{readOnlyBuffersCount++});");
+                    writer.WriteLine($"{resourceField.Type} {resourceField.Name} : register(t{readOnlyBuffersCount++});");
                 }
-                else if (HlslKnownTypes.IsReadWriteTypedResourceType(metadataName))
+                else if (HlslKnownTypes.IsReadWriteTypedResourceType(resourceField.MetadataName))
                 {
-                    AppendLF();
-                    AppendLineAndLF($"{fieldType} {fieldName} : register(u{readWriteBuffersCount++});");
+                    writer.WriteLine($"{resourceField.Type} {resourceField.Name} : register(u{readWriteBuffersCount++});");
                 }
             }
 
             // Shared buffers
-            foreach ((string bufferName, string bufferType, int? bufferCount) in sharedBuffers)
+            foreach (HlslSharedBuffer buffer in sharedBuffers)
             {
-                object count = (object?)bufferCount ?? "__GroupSize__get_X * __GroupSize__get_Y * __GroupSize__get_Z";
+                object count = (object?)buffer.Count ?? "__GroupSize__get_X * __GroupSize__get_Y * __GroupSize__get_Z";
 
-                AppendLF();
-                AppendLineAndLF($"groupshared {bufferType} {bufferName} [{count}];");
+                writer.WriteLine(skipIfPresent: true);
+                writer.WriteLine($"groupshared {buffer.Type} {buffer.Name} [{count}];");
             }
 
-            // Forward declarations
-            foreach ((string forwardDeclaration, string _) in processedMethods)
-            {
-                AppendLF();
-                AppendLineAndLF(forwardDeclaration);
-            }
-
-            // Captured methods
-            foreach ((string _, string method) in processedMethods)
-            {
-                AppendLF();
-                AppendLineAndLF(method);
-            }
+            HlslSourceSyntaxProcessor.WriteMethodDeclarations(writer, processedMethods, typeMethodDeclarations);
 
             // Entry point
-            AppendLF();
-            AppendLineAndLF("[NumThreads(__GroupSize__get_X, __GroupSize__get_Y, __GroupSize__get_Z)]");
-            AppendLineAndLF(executeMethod);
+            writer.WriteLine("[NumThreads(__GroupSize__get_X, __GroupSize__get_Y, __GroupSize__get_Z)]");
+            writer.WriteLine(executeMethod);
 
-            return FlushText();
+            return writer.ToString();
         }
     }
 }

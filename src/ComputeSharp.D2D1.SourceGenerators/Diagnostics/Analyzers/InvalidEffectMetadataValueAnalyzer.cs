@@ -17,29 +17,33 @@ public sealed class InvalidEffectMetadataValueAnalyzer : DiagnosticAnalyzer
     /// <summary>
     /// The set of type names for all metadata attributes.
     /// </summary>
-    private static readonly ImmutableArray<string> MetadataAttributeTypeNames = ImmutableArray.Create(
+    private static readonly ImmutableArray<string> MetadataAttributeTypeNames =
+    [
         "ComputeSharp.D2D1.D2DEffectDisplayNameAttribute",
         "ComputeSharp.D2D1.D2DEffectDescriptionAttribute",
         "ComputeSharp.D2D1.D2DEffectCategoryAttribute",
-        "ComputeSharp.D2D1.D2DEffectAuthorAttribute");
+        "ComputeSharp.D2D1.D2DEffectAuthorAttribute",
+    ];
 
     /// <summary>
     /// The mapping of diagnostics to their attribute type names.
     /// </summary>
-    private static readonly ImmutableDictionary<string, DiagnosticDescriptor> AttributeTypeNameToDiagnosticMapping = ImmutableDictionary.CreateRange(new[]
-    {
+    private static readonly ImmutableDictionary<string, DiagnosticDescriptor> AttributeTypeNameToDiagnosticMapping = ImmutableDictionary.CreateRange(
+    [
         new KeyValuePair<string, DiagnosticDescriptor>("D2DEffectDisplayNameAttribute", InvalidD2DEffectDisplayNameAttributeValue),
         new KeyValuePair<string, DiagnosticDescriptor>("D2DEffectDescriptionAttribute", InvalidD2DEffectDescriptionAttributeValue),
         new KeyValuePair<string, DiagnosticDescriptor>("D2DEffectCategoryAttribute", InvalidD2DEffectCategoryAttributeValue),
         new KeyValuePair<string, DiagnosticDescriptor>("D2DEffectAuthorAttribute", InvalidD2DEffectAuthorAttributeValue)
-    });
+    ]);
 
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
+    [
         InvalidD2DEffectDisplayNameAttributeValue,
         InvalidD2DEffectDescriptionAttributeValue,
         InvalidD2DEffectCategoryAttributeValue,
-        InvalidD2DEffectAuthorAttributeValue);
+        InvalidD2DEffectAuthorAttributeValue,
+    ];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)

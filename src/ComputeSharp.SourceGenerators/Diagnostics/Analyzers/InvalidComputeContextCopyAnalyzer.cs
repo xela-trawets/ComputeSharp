@@ -15,7 +15,7 @@ namespace ComputeSharp.SourceGenerators;
 public sealed class InvalidComputeContextCopyAnalyzer : DiagnosticAnalyzer
 {
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(InvalidComputeContextCopy);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [InvalidComputeContextCopy];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -239,7 +239,7 @@ public sealed class InvalidComputeContextCopyAnalyzer : DiagnosticAnalyzer
                         return;
                     }
 
-                    context.ReportDiagnostic(Diagnostic.Create(InvalidComputeContextCopy, symbol.DeclaringSyntaxReferences[0].GetSyntax().GetLocation()));
+                    context.ReportDiagnostic(Diagnostic.Create(InvalidComputeContextCopy, symbol.DeclaringSyntaxReferences[0].GetSyntax(context.CancellationToken).GetLocation()));
                 }
             }, SymbolKind.Field);
         });

@@ -20,6 +20,17 @@ public unsafe partial struct UInt2
     private uint y;
 
     /// <summary>
+    /// Creates a new <see cref="UInt2"/> instance with the specified parameters.
+    /// </summary>
+    /// <param name="x">The value to assign to the first vector component.</param>
+    /// <param name="y">The value to assign to the second vector component.</param>
+    public UInt2(uint x, uint y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    /// <summary>
     /// Gets a reference to a specific component in the current <see cref="UInt2"/> instance.
     /// </summary>
     /// <param name="i">The index of the component to access.</param>
@@ -470,6 +481,33 @@ public unsafe partial struct UInt2
 
         return $"<{this.x}{separator} {this.y}>";
     }
+
+    /// <summary>
+    /// Creates a new <see cref="UInt2"/> value with the same value for all its components.
+    /// </summary>
+    /// <param name="x">The value to use for the components of the new <see cref="UInt2"/> instance.</param>
+    public static implicit operator UInt2(uint x) => new(x, x);
+
+    /// <summary>
+    /// Casts a <see cref="UInt2"/> value to a <see cref="Float2"/> one.
+    /// </summary>
+    /// <param name="xy">The input <see cref="UInt2"/> value to cast.</param>
+    /// <remarks>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</remarks>
+    public static implicit operator Float2(UInt2 xy) => default;
+
+    /// <summary>
+    /// Casts a <see cref="UInt2"/> value to a <see cref="Double2"/> one.
+    /// </summary>
+    /// <param name="xy">The input <see cref="UInt2"/> value to cast.</param>
+    /// <remarks>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</remarks>
+    public static implicit operator Double2(UInt2 xy) => default;
+
+    /// <summary>
+    /// Casts a <see cref="UInt2"/> value to a <see cref="Int2"/> one.
+    /// </summary>
+    /// <param name="xy">The input <see cref="UInt2"/> value to cast.</param>
+    /// <remarks>This method is an intrinsic and can only be used within a shader on the GPU. Using it on the CPU is undefined behavior.</remarks>
+    public static explicit operator Int2(UInt2 xy) => default;
 
     /// <summary>
     /// Sums two <see cref="UInt2"/> values.

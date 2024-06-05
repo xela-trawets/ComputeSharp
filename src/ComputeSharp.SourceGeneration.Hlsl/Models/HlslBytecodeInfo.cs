@@ -11,7 +11,8 @@ internal abstract record HlslBytecodeInfo
     /// A successfully compiled HLSL shader.
     /// </summary>
     /// <param name="Bytecode">The resulting HLSL bytecode.</param>
-    public sealed record Success(EquatableArray<byte> Bytecode) : HlslBytecodeInfo;
+    /// <param name="RequiresDoublePrecisionSupport">Whether the shader requires support for double precision operations.</param>
+    public sealed record Success(EquatableArray<byte> Bytecode, bool RequiresDoublePrecisionSupport) : HlslBytecodeInfo;
 
     /// <summary>
     /// An HLSL shader that failed to compile due to a Win32 error.

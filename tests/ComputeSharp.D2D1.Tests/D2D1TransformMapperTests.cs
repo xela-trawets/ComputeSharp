@@ -15,13 +15,12 @@ using Rectangle = System.Drawing.Rectangle;
 namespace ComputeSharp.D2D1.Tests;
 
 [TestClass]
-[TestCategory("D2D1TransformMapper")]
 public partial class D2D1TransformMapperTests
 {
     [TestMethod]
     public unsafe void VerifyInterfaces()
     {
-        D2D1TransformMapper<HelloWorld> transformMapper = D2D1TransformMapperFactory<HelloWorld>.Inflate(4);
+        D2D1DrawTransformMapper<HelloWorld> transformMapper = D2D1DrawTransformMapper<HelloWorld>.Inflate(4);
 
         using ComPtr<IUnknown> unknown = default;
         using ComPtr<IUnknown> transformMapper2 = default;
@@ -59,7 +58,7 @@ public partial class D2D1TransformMapperTests
 
         D2D1PixelShaderEffect.RegisterForD2D1Factory1<DummyShader>(d2D1Factory2.Get(), out _);
 
-        D2D1TransformMapper<HelloWorld> transformMapper = D2D1TransformMapperFactory<HelloWorld>.Inflate(4);
+        D2D1DrawTransformMapper<HelloWorld> transformMapper = D2D1DrawTransformMapper<HelloWorld>.Inflate(4);
 
         using ComPtr<IUnknown> transformMapper2 = default;
 
@@ -100,7 +99,7 @@ public partial class D2D1TransformMapperTests
     [TestMethod]
     public unsafe void VerifyManagedWrapperRetrieval()
     {
-        D2D1TransformMapper<HelloWorld> transformMapper = D2D1TransformMapperFactory<HelloWorld>.Inflate(4);
+        D2D1DrawTransformMapper<HelloWorld> transformMapper = D2D1DrawTransformMapper<HelloWorld>.Inflate(4);
 
         using ComPtr<IUnknown> unknown = default;
         using ComPtr<IUnknown> transformMapperInternal = default;
@@ -140,7 +139,7 @@ public partial class D2D1TransformMapperTests
             IUnknown** transformMapperUnknown,
             out GCHandle transformMapperHandle)
         {
-            D2D1TransformMapper<HelloWorld> transformMapper = D2D1TransformMapperFactory<HelloWorld>.Inflate(4);
+            D2D1DrawTransformMapper<HelloWorld> transformMapper = D2D1DrawTransformMapper<HelloWorld>.Inflate(4);
 
             Guid uuidOfTransformMapper = new("02E6D48D-B892-4FBC-AA54-119203BAB802");
 
@@ -244,7 +243,7 @@ public partial class D2D1TransformMapperTests
         TolerantImageComparer.AssertEqual(destinationPath, expectedPath, 0.00001f);
     }
 
-    private sealed class DispatchAreaTransformMapper : D2D1TransformMapper<ShaderWithDispatchArea>
+    private sealed class DispatchAreaTransformMapper : D2D1DrawTransformMapper<ShaderWithDispatchArea>
     {
         public int ExpectedWidth;
         public int ExpectedHeight;

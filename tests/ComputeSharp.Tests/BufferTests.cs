@@ -8,7 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ComputeSharp.Tests;
 
 [TestClass]
-[TestCategory("Buffer")]
 public partial class BufferTests
 {
     [CombinatorialTestMethod]
@@ -376,6 +375,7 @@ public partial class BufferTests
 
     [AutoConstructor]
     [ThreadGroupSize(DefaultThreadGroupSizes.X)]
+    [RequiresDoublePrecisionSupport]
     [GeneratedComputeShaderDescriptor]
     public readonly partial struct DoublePrecisionSupportShader : IComputeShader
     {

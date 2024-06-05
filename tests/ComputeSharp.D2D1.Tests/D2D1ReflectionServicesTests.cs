@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ComputeSharp.D2D1.Tests;
 
 [TestClass]
-[TestCategory("D2D1ReflectionServices")]
 public partial class D2D1ReflectionServicesTests
 {
     [TestMethod]
@@ -20,12 +19,6 @@ public partial class D2D1ReflectionServicesTests
         Assert.IsNotNull(shaderInfo.CompilerVersion);
 
         Assert.AreEqual("""
-            // ================================================
-            //                  AUTO GENERATED
-            // ================================================
-            // This shader was created by ComputeSharp.
-            // See: https://github.com/Sergio0694/ComputeSharp.
-
             #define D2D_INPUT_COUNT 3
             #define D2D_INPUT0_SIMPLE
             #define D2D_INPUT1_COMPLEX
@@ -52,7 +45,7 @@ public partial class D2D1ReflectionServicesTests
                 float4 value4 = __reserved__texture.Sample(__sampler____reserved__texture, float2(0, 0.5));
                 return input0 + input1 + input2 + value3 + value4;
             }
-            """.Replace("\r\n", "\n"), shaderInfo.HlslSource);
+            """, shaderInfo.HlslSource);
 
         CollectionAssert.AreEqual(D2D1PixelShader.LoadBytecode<ReflectedShader>().ToArray(), shaderInfo.HlslBytecode.ToArray());
     }
@@ -104,12 +97,6 @@ public partial class D2D1ReflectionServicesTests
         Assert.IsNotNull(shaderInfo.CompilerVersion);
 
         Assert.AreEqual("""
-            // ================================================
-            //                  AUTO GENERATED
-            // ================================================
-            // This shader was created by ComputeSharp.
-            // See: https://github.com/Sergio0694/ComputeSharp.
-
             #define D2D_INPUT_COUNT 1
 
             #include "d2d1effecthelpers.hlsli"
@@ -120,12 +107,13 @@ public partial class D2D1ReflectionServicesTests
             {
                 return (float4)(D2DGetInput(0) + (double4)amount);
             }
-            """.Replace("\r\n", "\n"), shaderInfo.HlslSource);
+            """, shaderInfo.HlslSource);
 
         CollectionAssert.AreEqual(D2D1PixelShader.LoadBytecode<ReflectedShaderWithDoubleOperations>().ToArray(), shaderInfo.HlslBytecode.ToArray());
     }
 
     [D2DInputCount(1)]
+    [D2DRequiresDoublePrecisionSupport]
     [D2DShaderProfile(D2D1ShaderProfile.PixelShader50)]
     [D2DGeneratedPixelShaderDescriptor]
     [AutoConstructor]

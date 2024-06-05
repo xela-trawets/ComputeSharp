@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using ComputeSharp.SourceGeneration.Extensions;
 using ComputeSharp.SourceGeneration.Helpers;
 using ComputeSharp.SourceGeneration.Mappings;
@@ -22,12 +23,17 @@ namespace ComputeSharp.SourceGeneration.SyntaxRewriters;
 /// <param name="semanticModel">The <see cref="SemanticModelProvider"/> instance for the target syntax tree.</param>
 /// <param name="discoveredTypes">The set of discovered custom types.</param>
 /// <param name="constantDefinitions">The collection of discovered constant definitions.</param>
+/// <param name="staticFieldDefinitions">The collection of discovered static field definitions.</param>
 /// <param name="diagnostics">The collection of produced <see cref="DiagnosticInfo"/> instances.</param>
+/// <param name="token">The <see cref="CancellationToken"/> value for the current operation.</param>
 internal sealed partial class StaticFieldRewriter(
     SemanticModelProvider semanticModel,
     ICollection<INamedTypeSymbol> discoveredTypes,
     IDictionary<IFieldSymbol, string> constantDefinitions,
-    ImmutableArrayBuilder<DiagnosticInfo> diagnostics) : HlslSourceRewriter(semanticModel, discoveredTypes, constantDefinitions, diagnostics)
+    IDictionary<IFieldSymbol, HlslStaticField> staticFieldDefinitions,
+    ImmutableArrayBuilder<DiagnosticInfo> diagnostics,
+    CancellationToken token)
+    : HlslSourceRewriter(semanticModel, discoveredTypes, constantDefinitions, staticFieldDefinitions, diagnostics, token)
 {
     /// <inheritdoc cref="CSharpSyntaxRewriter.Visit(SyntaxNode?)"/>
     public ExpressionSyntax? Visit(VariableDeclaratorSyntax? node)
@@ -43,10 +49,12 @@ internal sealed partial class StaticFieldRewriter(
     /// <inheritdoc/>
     public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
     {
+        CancellationToken.ThrowIfCancellationRequested();
+
         MemberAccessExpressionSyntax updatedNode = (MemberAccessExpressionSyntax)base.VisitMemberAccessExpression(node)!;
 
         if (node.IsKind(SyntaxKind.SimpleMemberAccessExpression) &&
-            SemanticModel.For(node).GetOperation(node) is IMemberReferenceOperation operation)
+            SemanticModel.For(node).GetOperation(node, CancellationToken) is IMemberReferenceOperation operation)
         {
             // Track and replace constants
             if (operation is IFieldReferenceOperation fieldOperation &&
@@ -88,7 +96,7 @@ internal sealed partial class StaticFieldRewriter(
     {
         InvocationExpressionSyntax updatedNode = (InvocationExpressionSyntax)base.VisitInvocationExpression(node)!;
 
-        if (SemanticModel.For(node).GetOperation(node) is IInvocationOperation operation &&
+        if (SemanticModel.For(node).GetOperation(node, CancellationToken) is IInvocationOperation operation &&
             operation.TargetMethod is IMethodSymbol method &&
             method.IsStatic)
         {
@@ -98,6 +106,12 @@ internal sealed partial class StaticFieldRewriter(
                 if (requiresParametersMapping)
                 {
                     mapping = HlslKnownMethods.GetMappedNameWithParameters(method.Name, method.Parameters.Select(static p => p.Type.Name));
+                }
+
+                // Handle named intrinsics (see ShaderSourceRewriter for more info)
+                if (VisitKnownNamedIntrinsicInvocationExpression(node, updatedNode, mapping) is SyntaxNode namedIntrinsic)
+                {
+                    return namedIntrinsic;
                 }
 
                 return updatedNode.WithExpression(IdentifierName(mapping!));

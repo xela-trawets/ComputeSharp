@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Linq;
 using ComputeSharp.D2D1.SourceGenerators.Models;
+using ComputeSharp.SourceGeneration.Constants;
 using ComputeSharp.SourceGeneration.Extensions;
 using ComputeSharp.SourceGeneration.Helpers;
 using ComputeSharp.SourceGeneration.Models;
@@ -83,11 +84,8 @@ public sealed partial class D2DPixelShaderDescriptorGenerator : IIncrementalGene
 
                     token.ThrowIfCancellationRequested();
 
-                    using ImmutableArrayBuilder<DiagnosticInfo> diagnostics = new();
-
                     // Constant buffer info
                     ConstantBuffer.GetInfo(
-                        diagnostics,
                         context.SemanticModel.Compilation,
                         typeSymbol,
                         out int constantBufferSizeInBytes,
@@ -97,7 +95,6 @@ public sealed partial class D2DPixelShaderDescriptorGenerator : IIncrementalGene
 
                     // Get the input info for InputTypes
                     InputTypes.GetInfo(
-                        diagnostics,
                         typeSymbol,
                         out int inputCount,
                         out ImmutableArray<int> inputSimpleIndices,
@@ -108,12 +105,38 @@ public sealed partial class D2DPixelShaderDescriptorGenerator : IIncrementalGene
 
                     // Get the resource texture info for ResourceTextureDescriptions
                     ResourceTextureDescriptions.GetInfo(
-                        diagnostics,
                         typeSymbol,
-                        inputCount,
                         out ImmutableArray<ResourceTextureDescription> resourceTextureDescriptions);
 
                     token.ThrowIfCancellationRequested();
+
+                    // Get the info for the output buffer properties
+                    OutputBuffer.GetInfo(typeSymbol, out D2D1BufferPrecision bufferPrecision, out D2D1ChannelDepth channelDepth);
+
+                    token.ThrowIfCancellationRequested();
+
+                    // Get the info for InputDescriptions
+                    InputDescriptions.GetInfo(
+                        typeSymbol,
+                        out ImmutableArray<InputDescription> inputDescriptions);
+
+                    token.ThrowIfCancellationRequested();
+
+                    // Get the info for PixelOptions
+                    PixelOptions.GetInfo(typeSymbol, out D2D1PixelOptions pixelOptions);
+
+                    token.ThrowIfCancellationRequested();
+
+                    // Get the shader profile and linking info for the HLSL bytecode properties
+                    bool isLinkingSupported = HlslBytecode.IsSimpleInputShader(context.SemanticModel.Compilation, typeSymbol, inputCount);
+                    D2D1ShaderProfile? requestedShaderProfile = HlslBytecode.GetRequestedShaderProfile(typeSymbol);
+                    D2D1CompileOptions? requestedCompileOptions = HlslBytecode.GetRequestedCompileOptions(typeSymbol);
+                    D2D1ShaderProfile effectiveShaderProfile = HlslBytecode.GetEffectiveShaderProfile(requestedShaderProfile, out bool isCompilationEnabled);
+                    D2D1CompileOptions effectiveCompileOptions = HlslBytecode.GetEffectiveCompileOptions(requestedCompileOptions, isLinkingSupported);
+
+                    token.ThrowIfCancellationRequested();
+
+                    using ImmutableArrayBuilder<DiagnosticInfo> diagnostics = new();
 
                     // Get HLSL source for HlslSource
                     string hlslSource = HlslSource.GetHlslSource(
@@ -127,33 +150,6 @@ public sealed partial class D2DPixelShaderDescriptorGenerator : IIncrementalGene
 
                     token.ThrowIfCancellationRequested();
 
-                    // Get the info for the output buffer properties
-                    OutputBuffer.GetInfo(typeSymbol, out D2D1BufferPrecision bufferPrecision, out D2D1ChannelDepth channelDepth);
-
-                    token.ThrowIfCancellationRequested();
-
-                    // Get the info for InputDescriptions
-                    InputDescriptions.GetInfo(
-                        diagnostics,
-                        typeSymbol,
-                        out ImmutableArray<InputDescription> inputDescriptions);
-
-                    token.ThrowIfCancellationRequested();
-
-                    // Get the info for PixelOptions
-                    PixelOptions.GetInfo(typeSymbol, out D2D1PixelOptions pixelOptions);
-
-                    token.ThrowIfCancellationRequested();
-
-                    // Get the shader profile and linking info for LoadBytecode()
-                    bool isLinkingSupported = HlslBytecode.IsSimpleInputShader(context.SemanticModel.Compilation, typeSymbol, inputCount);
-                    D2D1ShaderProfile? requestedShaderProfile = HlslBytecode.GetRequestedShaderProfile(typeSymbol);
-                    D2D1CompileOptions? requestedCompileOptions = HlslBytecode.GetRequestedCompileOptions(diagnostics, typeSymbol);
-                    D2D1ShaderProfile effectiveShaderProfile = HlslBytecode.GetEffectiveShaderProfile(requestedShaderProfile, out bool isCompilationEnabled);
-                    D2D1CompileOptions effectiveCompileOptions = HlslBytecode.GetEffectiveCompileOptions(requestedCompileOptions, isLinkingSupported);
-
-                    token.ThrowIfCancellationRequested();
-
                     // As the last steps in the pipeline, try to compile the shader if needed.
                     // This is done last so that it can be skipped if any errors happened before.
                     HlslBytecodeInfoKey hlslInfoKey = new(
@@ -163,12 +159,13 @@ public sealed partial class D2DPixelShaderDescriptorGenerator : IIncrementalGene
                         isCompilationEnabled);
 
                     // Get the existing compiled shader, or compile the processed HLSL code
-                    HlslBytecodeInfo hlslInfo = HlslBytecode.GetInfo(ref hlslInfoKey, token);
+                    HlslBytecodeInfo hlslInfo = HlslBytecodeSyntaxProcessor.GetInfo(ref hlslInfoKey, token);
 
                     token.ThrowIfCancellationRequested();
 
                     // Append any diagnostic for the shader compilation
-                    HlslBytecode.GetInfoDiagnostics(typeSymbol, hlslInfo, diagnostics);
+                    HlslBytecodeSyntaxProcessor.GetInfoDiagnostics(typeSymbol, hlslInfo, diagnostics);
+                    HlslBytecodeSyntaxProcessor.GetDoublePrecisionSupportDiagnostics(typeSymbol, hlslInfo, diagnostics);
 
                     token.ThrowIfCancellationRequested();
 
@@ -196,13 +193,22 @@ public sealed partial class D2DPixelShaderDescriptorGenerator : IIncrementalGene
                         HlslInfo: hlslInfo,
                         Diagnostcs: diagnostics.ToImmutable());
                 })
+            .WithTrackingName(WellKnownTrackingNames.Execute)
             .Where(static item => item is not null)!;
 
-        // We need to create two more incremental steps to ensure we correctly emit diagnostics and re-generate sources:
-        //   - One with just the diagnostics, which will trigger every time any of them changes
-        //   - One with just the shader info (and no diagnostics), so that changes there don't trigger generation unnecessarily
-        IncrementalValuesProvider<EquatableArray<DiagnosticInfo>> diagnosticInfo = shaderInfo.Select(static (item, _) => item.Diagnostcs);
-        IncrementalValuesProvider<D2D1ShaderInfo> outputInfo = shaderInfo.Select(static (item, _) => item with { Diagnostcs = default });
+        // We need to create two more incremental steps to ensure we correctly emit diagnostics and re-generate sources.
+        // First, select an incremental provider with just the diagnostics, which will trigger every time any of them changes.
+        IncrementalValuesProvider<EquatableArray<DiagnosticInfo>> diagnosticInfo =
+            shaderInfo
+            .Select(static (item, _) => item.Diagnostcs)
+            .WithTrackingName(WellKnownTrackingNames.Diagnostics)
+            .Where(static item => !item.IsEmpty);
+
+        // Next, select one with just the shader info (and no diagnostics), so that changes there don't trigger generation unnecessarily
+        IncrementalValuesProvider<D2D1ShaderInfo> outputInfo =
+            shaderInfo
+            .Select(static (item, _) => item with { Diagnostcs = default })
+            .WithTrackingName(WellKnownTrackingNames.Output);
 
         // Output the diagnostics, if any
         context.ReportDiagnostics(diagnosticInfo);
@@ -246,7 +252,7 @@ public sealed partial class D2DPixelShaderDescriptorGenerator : IIncrementalGene
             item.Hierarchy.WriteSyntax(
                 state: item,
                 writer: writer,
-                baseTypes: new[] { $"global::ComputeSharp.D2D1.Descriptors.ID2D1PixelShaderDescriptor<{item.Hierarchy.Hierarchy[0].QualifiedName}>" },
+                baseTypes: [$"global::ComputeSharp.D2D1.Descriptors.ID2D1PixelShaderDescriptor<{item.Hierarchy.Hierarchy[0].QualifiedName}>"],
                 memberCallbacks: declaredMembers.WrittenSpan);
 
             // If any generated types are needed, they go into a separate namespace

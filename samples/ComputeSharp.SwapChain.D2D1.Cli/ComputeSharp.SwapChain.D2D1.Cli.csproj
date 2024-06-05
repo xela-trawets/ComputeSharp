@@ -6,15 +6,20 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x64;ARM64</Platforms>
     <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
-    <NoWarn>$(NoWarn);IDE0065</NoWarn>
     <AssemblyName>computesharp.d2d1.cli</AssemblyName>
     <ApplicationIcon>..\..\assets\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup>
 
+    <!-- Suppress warnings for using directives inside namespaces (needed to avoid some WinRT conflicts) -->
+    <NoWarn>$(NoWarn);IDE0065</NoWarn>
+
     <!-- Workaround for WinRT.TypeExtensions.GetAuthoringMetadataType(Type) trim warning (see https://github.com/microsoft/CsWinRT/issues/1319) -->
     <NoWarn>$(NoWarn);IL2104;IL2026</NoWarn>
+
+    <!-- Workaround for WinRT.Runtime and System.Linq.Expressions producing trim warnings -->
+    <NoWarn>$(NoWarn);IL3053</NoWarn>
   </PropertyGroup>
 
   <!-- Options for R2R publishing -->
@@ -23,6 +28,9 @@
     <PublishSingleFile>true</PublishSingleFile>
     <PublishTrimmed>true</PublishTrimmed>
     <SelfContained>true</SelfContained>
+
+    <!-- Using 'PublishSingleFile' requires 'EnableMsixTooling' for embedded resources.pri generation-->
+    <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
 
   <!-- Same optional NativeAOT property group as in ComputeSharp.SwapChain.Cli -->
@@ -32,9 +40,6 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <StackTraceSupport>false</StackTraceSupport>
     <OptimizationPreference>Speed</OptimizationPreference>
-
-    <!-- Workaround for WinRT.Runtime and System.Linq.Expressions producing trim warnings -->
-    <NoWarn>$(NoWarn);IL3053</NoWarn>
   </PropertyGroup>
 
   <!-- Also include the .rd.xml file to fix some NativeAOT issues with CsWinRT -->
@@ -43,7 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="TerraFX.Interop.Windows" Version="10.0.22621.2" />
+    <PackageReference Include="TerraFX.Interop.Windows" Version="10.0.22621.6" />
   </ItemGroup>
 
   <!-- Note: using SetPlatform="Platform=AnyCPU" for the analyzers to avoid issues (see https://github.com/dotnet/roslyn/issues/70148) -->

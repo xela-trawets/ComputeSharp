@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Threading;
 using ComputeSharp.SourceGeneration.Extensions;
 using ComputeSharp.SourceGeneration.Helpers;
@@ -51,7 +50,9 @@ partial class D2DPixelShaderDescriptorGenerator
             HashSet<INamedTypeSymbol> discoveredTypes = new(SymbolEqualityComparer.Default);
             Dictionary<IMethodSymbol, MethodDeclarationSyntax> staticMethods = new(SymbolEqualityComparer.Default);
             Dictionary<IMethodSymbol, MethodDeclarationSyntax> instanceMethods = new(SymbolEqualityComparer.Default);
+            Dictionary<IMethodSymbol, (MethodDeclarationSyntax, MethodDeclarationSyntax)> constructors = new(SymbolEqualityComparer.Default);
             Dictionary<IFieldSymbol, string> constantDefinitions = new(SymbolEqualityComparer.Default);
+            Dictionary<IFieldSymbol, HlslStaticField> staticFieldDefinitions = new(SymbolEqualityComparer.Default);
 
             token.ThrowIfCancellationRequested();
 
@@ -60,48 +61,54 @@ partial class D2DPixelShaderDescriptorGenerator
                 diagnostics,
                 structDeclarationSymbol,
                 discoveredTypes,
-                out ImmutableArray<(string Name, string HlslType)> valueFields,
-                out ImmutableArray<(string Name, string HlslType, int Index)> resourceTextureFields);
+                out ImmutableArray<HlslValueField> valueFields,
+                out ImmutableArray<HlslResourceTextureField> resourceTextureFields);
 
             token.ThrowIfCancellationRequested();
 
             SemanticModelProvider semanticModelProvider = new(compilation);
 
             // Explore the syntax tree and extract the processed info
-            (string entryPoint, ImmutableArray<(string Signature, string Definition)> processedMethods) = GetProcessedMethods(
+            (string entryPoint, ImmutableArray<HlslMethod> processedMethods) = GetProcessedMethods(
                 diagnostics,
                 structDeclarationSymbol,
                 semanticModelProvider,
                 discoveredTypes,
                 staticMethods,
                 instanceMethods,
+                constructors,
                 constantDefinitions,
+                staticFieldDefinitions,
                 token,
                 out bool methodsNeedD2D1RequiresScenePosition);
 
             token.ThrowIfCancellationRequested();
 
-            ImmutableArray<(string Name, string TypeDeclaration, string? Assignment)> staticFields = GetStaticFields(
+            ImmutableArray<HlslStaticField> staticFields = GetStaticFields(
                 diagnostics,
                 semanticModelProvider,
                 structDeclarationSymbol,
                 discoveredTypes,
                 constantDefinitions,
+                staticFieldDefinitions,
                 token,
                 out bool fieldsNeedD2D1RequiresScenePosition);
 
             token.ThrowIfCancellationRequested();
 
             // Process the discovered types and constants
-            ImmutableArray<(string Name, string Definition)> declaredTypes = HlslDefinitionsSyntaxProcessor.GetDeclaredTypes(
+            HlslDefinitionsSyntaxProcessor.GetDeclaredTypes(
                 diagnostics,
                 structDeclarationSymbol,
                 discoveredTypes,
-                instanceMethods);
+                instanceMethods,
+                constructors,
+                out ImmutableArray<HlslUserType> typeDeclarations,
+                out ImmutableArray<string> typeMethodDeclarations);
 
             token.ThrowIfCancellationRequested();
 
-            ImmutableArray<(string Name, string Value)> definedConstants = HlslDefinitionsSyntaxProcessor.GetDefinedConstants(constantDefinitions);
+            ImmutableArray<HlslConstant> definedConstants = HlslDefinitionsSyntaxProcessor.GetDefinedConstants(constantDefinitions);
 
             token.ThrowIfCancellationRequested();
 
@@ -120,11 +127,12 @@ partial class D2DPixelShaderDescriptorGenerator
             // Get the HLSL source
             return GetHlslSource(
                 definedConstants,
-                declaredTypes,
                 valueFields,
                 resourceTextureFields,
                 staticFields,
                 processedMethods,
+                typeDeclarations,
+                typeMethodDeclarations,
                 entryPoint,
                 inputCount,
                 inputSimpleIndices,
@@ -144,11 +152,11 @@ partial class D2DPixelShaderDescriptorGenerator
             ImmutableArrayBuilder<DiagnosticInfo> diagnostics,
             INamedTypeSymbol structDeclarationSymbol,
             ICollection<INamedTypeSymbol> types,
-            out ImmutableArray<(string Name, string HlslType)> valueFields,
-            out ImmutableArray<(string Name, string HlslType, int Index)> resourceTextureFields)
+            out ImmutableArray<HlslValueField> valueFields,
+            out ImmutableArray<HlslResourceTextureField> resourceTextureFields)
         {
-            using ImmutableArrayBuilder<(string, string)> values = new();
-            using ImmutableArrayBuilder<(string, string, int)> resourceTextures = new();
+            using ImmutableArrayBuilder<HlslValueField> values = new();
+            using ImmutableArrayBuilder<HlslResourceTextureField> resourceTextures = new();
 
             foreach (ISymbol memberSymbol in structDeclarationSymbol.GetMembers())
             {
@@ -235,63 +243,55 @@ partial class D2DPixelShaderDescriptorGenerator
         /// <param name="structDeclarationSymbol">The type symbol for the shader type.</param>
         /// <param name="discoveredTypes">The collection of currently discovered types.</param>
         /// <param name="constantDefinitions">The collection of discovered constant definitions.</param>
+        /// <param name="staticFieldDefinitions">The collection of discovered static field definitions.</param>
         /// <param name="token">The <see cref="CancellationToken"/> used to cancel the operation, if needed.</param>
         /// <param name="needsD2D1RequiresScenePosition">Whether or not the shader needs the <c>[D2DRequiresScenePosition]</c> annotation.</param>
         /// <returns>A sequence of static constant fields in <paramref name="structDeclarationSymbol"/>.</returns>
-        private static ImmutableArray<(string Name, string TypeDeclaration, string? Assignment)> GetStaticFields(
+        private static ImmutableArray<HlslStaticField> GetStaticFields(
             ImmutableArrayBuilder<DiagnosticInfo> diagnostics,
             SemanticModelProvider semanticModel,
             INamedTypeSymbol structDeclarationSymbol,
             ICollection<INamedTypeSymbol> discoveredTypes,
             IDictionary<IFieldSymbol, string> constantDefinitions,
+            IDictionary<IFieldSymbol, HlslStaticField> staticFieldDefinitions,
             CancellationToken token,
             out bool needsD2D1RequiresScenePosition)
         {
-            using ImmutableArrayBuilder<(string, string, string?)> builder = new();
+            using ImmutableArrayBuilder<HlslStaticField> builder = new();
 
             needsD2D1RequiresScenePosition = false;
 
             foreach (ISymbol memberSymbol in structDeclarationSymbol.GetMembers())
             {
-                // Find all declared static fields in the type
-                if (memberSymbol is not IFieldSymbol { IsImplicitlyDeclared: false, IsStatic: true, IsConst: false, } fieldSymbol)
+                if (memberSymbol is not IFieldSymbol fieldSymbol)
                 {
                     continue;
                 }
 
-                if (!fieldSymbol.TryGetSyntaxNode(token, out VariableDeclaratorSyntax? variableDeclarator))
-                {
-                    continue;
-                }
-
-                // Constant properties must be of a primitive, vector or matrix type
-                if (fieldSymbol.Type is not INamedTypeSymbol typeSymbol ||
-                    !HlslKnownTypes.IsKnownHlslType(typeSymbol.GetFullyQualifiedMetadataName()))
-                {
-                    diagnostics.Add(InvalidShaderStaticFieldType, variableDeclarator, structDeclarationSymbol, fieldSymbol.Name, fieldSymbol.Type);
-
-                    continue;
-                }
-
-                _ = HlslKnownKeywords.TryGetMappedName(fieldSymbol.Name, out string? mapping);
-
-                string typeDeclaration = fieldSymbol.IsReadOnly switch
-                {
-                    true => $"static const {HlslKnownTypes.GetMappedName(typeSymbol)}",
-                    false => $"static {HlslKnownTypes.GetMappedName(typeSymbol)}"
-                };
-
-                StaticFieldRewriter staticFieldRewriter = new(
+                if (HlslDefinitionsSyntaxProcessor.TryGetStaticField(
+                    structDeclarationSymbol,
+                    fieldSymbol,
                     semanticModel,
                     discoveredTypes,
                     constantDefinitions,
-                    diagnostics);
+                    staticFieldDefinitions,
+                    diagnostics,
+                    token,
+                    out string? name,
+                    out string? typeDeclaration,
+                    out string? assignmentExpression,
+                    out StaticFieldRewriter? staticFieldRewriter))
+                {
+                    needsD2D1RequiresScenePosition |= staticFieldRewriter.NeedsD2DRequiresScenePositionAttribute;
 
-                string? assignment = staticFieldRewriter.Visit(variableDeclarator)?.NormalizeWhitespace(eol: "\n").ToFullString();
+                    builder.Add((name, typeDeclaration, assignmentExpression));
+                }
+            }
 
-                needsD2D1RequiresScenePosition |= staticFieldRewriter.NeedsD2DRequiresScenePositionAttribute;
-
-                builder.Add((mapping ?? fieldSymbol.Name, typeDeclaration, assignment));
+            // Also gather the external static fields (same as in the DX12 generator)
+            foreach (HlslStaticField externalField in staticFieldDefinitions.Values)
+            {
+                builder.Add(externalField);
             }
 
             return builder.ToImmutable();
@@ -306,24 +306,31 @@ partial class D2DPixelShaderDescriptorGenerator
         /// <param name="discoveredTypes">The collection of currently discovered types.</param>
         /// <param name="staticMethods">The set of discovered and processed static methods.</param>
         /// <param name="instanceMethods">The collection of discovered instance methods for custom struct types.</param>
+        /// <param name="constructors">The collection of discovered constructors for custom struct types.</param>
         /// <param name="constantDefinitions">The collection of discovered constant definitions.</param>
+        /// <param name="staticFieldDefinitions">The collection of discovered static field definitions.</param>
         /// <param name="needsD2D1RequiresScenePosition">Whether or not the shader needs the <c>[D2DRequiresScenePosition]</c> annotation.</param>
         /// <param name="token">The <see cref="CancellationToken"/> used to cancel the operation, if needed.</param>
         /// <returns>A sequence of processed methods in <paramref name="structDeclarationSymbol"/>, and the entry point.</returns>
-        private static (string EntryPoint, ImmutableArray<(string Signature, string Definition)> Methods) GetProcessedMethods(
+        private static (string EntryPoint, ImmutableArray<HlslMethod> Methods) GetProcessedMethods(
             ImmutableArrayBuilder<DiagnosticInfo> diagnostics,
             INamedTypeSymbol structDeclarationSymbol,
             SemanticModelProvider semanticModel,
             ICollection<INamedTypeSymbol> discoveredTypes,
             IDictionary<IMethodSymbol, MethodDeclarationSyntax> staticMethods,
             IDictionary<IMethodSymbol, MethodDeclarationSyntax> instanceMethods,
+            IDictionary<IMethodSymbol, (MethodDeclarationSyntax, MethodDeclarationSyntax)> constructors,
             IDictionary<IFieldSymbol, string> constantDefinitions,
+            IDictionary<IFieldSymbol, HlslStaticField> staticFieldDefinitions,
             CancellationToken token,
             out bool needsD2D1RequiresScenePosition)
         {
-            using ImmutableArrayBuilder<(string, string)> methods = new();
+            using ImmutableArrayBuilder<HlslMethod> methods = new();
 
             string? entryPoint = null;
+
+            // By default, the scene position is not required. We will set this while
+            // rewriting HLSL, if any method we traverse ends up requiring the position.
             needsD2D1RequiresScenePosition = false;
 
             foreach (ISymbol memberSymbol in structDeclarationSymbol.GetMembers())
@@ -360,8 +367,11 @@ partial class D2DPixelShaderDescriptorGenerator
                     discoveredTypes,
                     staticMethods,
                     instanceMethods,
+                    constructors,
                     constantDefinitions,
+                    staticFieldDefinitions,
                     diagnostics,
+                    token,
                     isShaderEntryPoint);
 
                 // Rewrite the method syntax tree
@@ -441,12 +451,13 @@ partial class D2DPixelShaderDescriptorGenerator
         /// <summary>
         /// Produces the series of statements to build the current HLSL source.
         /// </summary>
-        /// <param name="definedConstants">The sequence of defined constants for the shader.</param>
-        /// <param name="declaredTypes">The sequence of declared types used by the shader.</param>
-        /// <param name="valueFields">The sequence of value instance fields for the current shader.</param>
+        /// <param name="definedConstants"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteTopDeclarations" path="/param[@name='definedConstants']/node()"/></param>
+        /// <param name="valueFields"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteCapturedFields" path="/param[@name='valueFields']/node()"/></param>
         /// <param name="resourceTextureFields">The sequence of captured resource textures for the current shader.</param>
-        /// <param name="staticFields">The sequence of static fields referenced by the shader.</param>
-        /// <param name="processedMethods">The sequence of processed methods used by the shader.</param>
+        /// <param name="staticFields"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteTopDeclarations" path="/param[@name='staticFields']/node()"/></param>
+        /// <param name="processedMethods"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteTopDeclarations" path="/param[@name='processedMethods']/node()"/></param>
+        /// <param name="typeDeclarations"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteTopDeclarations" path="/param[@name='typeDeclarations']/node()"/></param>
+        /// <param name="typeMethodDeclarations"><inheritdoc cref="HlslSourceSyntaxProcessor.WriteMethodDeclarations" path="/param[@name='typeMethodDeclarations']/node()"/></param>
         /// <param name="executeMethod">The body of the entry point of the shader.</param>
         /// <param name="inputCount">The number of shader inputs to declare.</param>
         /// <param name="inputSimpleIndices">The indicess of the simple shader inputs.</param>
@@ -454,136 +465,66 @@ partial class D2DPixelShaderDescriptorGenerator
         /// <param name="requiresScenePosition">Whether the shader requires the scene position.</param>
         /// <returns>The series of statements to build the HLSL source to compile to execute the current shader.</returns>
         private static string GetHlslSource(
-            ImmutableArray<(string Name, string Value)> definedConstants,
-            ImmutableArray<(string Name, string Definition)> declaredTypes,
-            ImmutableArray<(string Name, string HlslType)> valueFields,
-            ImmutableArray<(string Name, string HlslType, int Index)> resourceTextureFields,
-            ImmutableArray<(string Name, string TypeDeclaration, string? Assignment)> staticFields,
-            ImmutableArray<(string Signature, string Definition)> processedMethods,
+            ImmutableArray<HlslConstant> definedConstants,
+            ImmutableArray<HlslValueField> valueFields,
+            ImmutableArray<HlslResourceTextureField> resourceTextureFields,
+            ImmutableArray<HlslStaticField> staticFields,
+            ImmutableArray<HlslMethod> processedMethods,
+            ImmutableArray<HlslUserType> typeDeclarations,
+            ImmutableArray<string> typeMethodDeclarations,
             string executeMethod,
             int inputCount,
             ImmutableArray<int> inputSimpleIndices,
             ImmutableArray<int> inputComplexIndices,
             bool requiresScenePosition)
         {
-            using ImmutableArrayBuilder<char> hlslBuilder = new();
-
-            void AppendLF()
-            {
-                hlslBuilder.Add('\n');
-            }
-
-            void AppendLineAndLF(string text)
-            {
-                hlslBuilder.AddRange(text.AsSpan());
-                hlslBuilder.Add('\n');
-            }
-
-            // Header
-            AppendLineAndLF("// ================================================");
-            AppendLineAndLF("//                  AUTO GENERATED");
-            AppendLineAndLF("// ================================================");
-            AppendLineAndLF("// This shader was created by ComputeSharp.");
-            AppendLineAndLF("// See: https://github.com/Sergio0694/ComputeSharp.");
-            AppendLF();
+            using IndentedTextWriter writer = new();
 
             // Shader metadata
-            AppendLineAndLF($"#define D2D_INPUT_COUNT {inputCount}");
+            writer.WriteLine($"#define D2D_INPUT_COUNT {inputCount}");
 
             foreach (int simpleInput in inputSimpleIndices)
             {
-                AppendLineAndLF($"#define D2D_INPUT{simpleInput}_SIMPLE");
+                writer.WriteLine($"#define D2D_INPUT{simpleInput}_SIMPLE");
             }
 
             foreach (int complexInput in inputComplexIndices)
             {
-                AppendLineAndLF($"#define D2D_INPUT{complexInput}_COMPLEX");
+                writer.WriteLine($"#define D2D_INPUT{complexInput}_COMPLEX");
             }
 
-            if (requiresScenePosition)
-            {
-                AppendLineAndLF("#define D2D_REQUIRES_SCENE_POSITION");
-            }
+            writer.WriteLineIf(requiresScenePosition, "#define D2D_REQUIRES_SCENE_POSITION");
 
             // Add the "d2d1effecthelpers.hlsli" header
-            AppendLF();
-            AppendLineAndLF("#include \"d2d1effecthelpers.hlsli\"");
+            writer.WriteLine();
+            writer.WriteLine("#include \"d2d1effecthelpers.hlsli\"");
+            writer.WriteLine();
 
-            // Define declarations
-            if (definedConstants.Any())
-            {
-                AppendLF();
+            // The FXC compiler does not support type forward declarations
+            HlslSourceSyntaxProcessor.WriteTopDeclarations(
+                writer,
+                definedConstants,
+                staticFields,
+                processedMethods,
+                typeDeclarations,
+                includeTypeForwardDeclarations: false);
 
-                foreach ((string name, string value) in definedConstants)
-                {
-                    AppendLineAndLF($"#define {name} {value}");
-                }
-            }
-
-            // Static fields
-            if (staticFields.Any())
-            {
-                AppendLF();
-
-                foreach ((string Name, string TypeDeclaration, string? Assignment) field in staticFields)
-                {
-                    if (field.Assignment is string assignment)
-                    {
-                        AppendLineAndLF($"{field.TypeDeclaration} {field.Name} = {assignment};");
-                    }
-                    else
-                    {
-                        AppendLineAndLF($"{field.TypeDeclaration} {field.Name};");
-                    }
-                }
-            }
-
-            // Declared types
-            foreach ((string _, string typeDefinition) in declaredTypes)
-            {
-                AppendLF();
-                AppendLineAndLF(typeDefinition);
-            }
-
-            // Captured variables
-            if (valueFields.Any())
-            {
-                AppendLF();
-
-                foreach ((string fieldName, string fieldType) in valueFields)
-                {
-                    AppendLineAndLF($"{fieldType} {fieldName};");
-                }
-            }
+            HlslSourceSyntaxProcessor.WriteCapturedFields(writer, valueFields);
 
             // Resource textures
-            foreach ((string fieldName, string fieldType, int index) in resourceTextureFields)
+            foreach (HlslResourceTextureField field in resourceTextureFields)
             {
-                AppendLF();
-
-                AppendLineAndLF($"{fieldType} {fieldName} : register(t{index});");
-                AppendLineAndLF($"SamplerState __sampler__{fieldName} : register(s{index});");
+                writer.WriteLine(skipIfPresent: true);
+                writer.WriteLine($"{field.Type} {field.Name} : register(t{field.Index});");
+                writer.WriteLine($"SamplerState __sampler__{field.Name} : register(s{field.Index});");
             }
 
-            // Forward declarations
-            foreach ((string forwardDeclaration, string _) in processedMethods)
-            {
-                AppendLF();
-                AppendLineAndLF(forwardDeclaration);
-            }
-
-            // Captured methods
-            foreach ((string _, string method) in processedMethods)
-            {
-                AppendLF();
-                AppendLineAndLF(method);
-            }
+            HlslSourceSyntaxProcessor.WriteMethodDeclarations(writer, processedMethods, typeMethodDeclarations);
 
             // Entry point
-            AppendLF();
-            AppendLineAndLF(executeMethod);
+            writer.WriteLine(executeMethod);
 
-            return hlslBuilder.ToString();
+            return writer.ToString();
         }
     }
 }

@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ComputeSharp.Interop;
 using ComputeSharp.Tests.Attributes;
 using ComputeSharp.Tests.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-#pragma warning disable IDE0007, IDE0008, IDE0009
+#pragma warning disable IDE0002, IDE0007, IDE0008, IDE0009
 
 namespace ComputeSharp.Tests;
 
 [TestClass]
-[TestCategory("ShaderRewriter")]
 public partial class ShaderRewriterTests
 {
     [CombinatorialTestMethod]
@@ -53,6 +53,7 @@ public partial class ShaderRewriterTests
 
     [AutoConstructor]
     [ThreadGroupSize(DefaultThreadGroupSizes.X)]
+    [RequiresDoublePrecisionSupport]
     [GeneratedComputeShaderDescriptor]
     internal readonly partial struct NanAndInfiniteShader : IComputeShader
     {
@@ -485,6 +486,98 @@ public partial class ShaderRewriterTests
         }
     }
 
+    [CombinatorialTestMethod]
+    [AllDevices]
+    public void ShaderWithMixedStaticFieldsInExternalTypes(Device device)
+    {
+        using ReadWriteBuffer<float> buffer = device.Get().AllocateReadWriteBuffer<float>(16);
+
+        device.Get().For(1, new MixedStaticFieldsInExternalTypesShader(buffer));
+
+        float[] results = buffer.ToArray();
+
+        Assert.AreEqual(3.14f, results[0]);
+        Assert.AreEqual(111, results[1]);
+        Assert.AreEqual(0, results[2]);
+        Assert.AreEqual(222, results[3]);
+        Assert.AreEqual(6.28f, results[4]);
+        Assert.AreEqual(42, results[5]);
+        Assert.AreEqual(0, results[6]);
+        Assert.AreEqual(333, results[7]);
+        Assert.AreEqual(2, results[8]);
+        Assert.AreEqual(444, results[9]);
+        Assert.AreEqual(123, results[10]);
+        Assert.AreEqual(666, results[11]);
+        Assert.AreEqual(3.14f, results[12]);
+        Assert.AreEqual(3.14f, results[13]);
+        Assert.AreEqual(6.28f, results[14]);
+    }
+
+    [AutoConstructor]
+    [ThreadGroupSize(DefaultThreadGroupSizes.X)]
+    [GeneratedComputeShaderDescriptor]
+    internal readonly partial struct MixedStaticFieldsInExternalTypesShader : IComputeShader
+    {
+        public static readonly float PI = 3.14f;
+        public static readonly int A = 111;
+        public static int B;
+        public static int C = 222;
+
+        private readonly ReadWriteBuffer<float> buffer;
+
+        public void Execute()
+        {
+            // Read static fields from this shader
+            buffer[0] = PI;
+            buffer[1] = A;
+            buffer[2] = B;
+            buffer[3] = C;
+
+            // Read static fields from an external type
+            buffer[4] = ExternalType.PI2;
+            buffer[5] = ExternalType.A;
+            buffer[6] = ExternalType.B;
+            buffer[7] = ExternalType.C;
+
+            // Mutate the fields and check again
+            B += 2;
+            C *= 2;
+            ExternalType.B = 123;
+            ExternalType.C *= 2;
+
+            buffer[8] = B;
+            buffer[9] = C;
+            buffer[10] = ExternalType.B;
+            buffer[11] = ExternalType.C;
+
+            // Access shader fields via a member access
+            buffer[12] = MixedStaticFieldsInExternalTypesShader.PI;
+            buffer[13] = ExternalType.ReadPI();
+
+            // Access an external field as an identifier name
+            buffer[14] = ExternalType.ReadPI2();
+        }
+    }
+
+    internal static class ExternalType
+    {
+        public static readonly float PI2 = 6.28f;
+        public static readonly int A = 42;
+        public static int B;
+        public static int C = 333;
+
+        public static float ReadPI()
+        {
+            return MixedStaticFieldsInExternalTypesShader.PI;
+        }
+
+        // See https://github.com/Sergio0694/ComputeSharp/issues/298
+        public static float ReadPI2()
+        {
+            return PI2;
+        }
+    }
+
     // See https://github.com/Sergio0694/ComputeSharp/issues/278
     [CombinatorialTestMethod]
     [AllDevices]
@@ -531,6 +624,7 @@ public partial class ShaderRewriterTests
 
     [AutoConstructor]
     [ThreadGroupSize(DefaultThreadGroupSizes.X)]
+    [RequiresDoublePrecisionSupport]
     [GeneratedComputeShaderDescriptor]
     internal readonly partial struct DoubleConstantsInShaderConstantFieldsShader : IComputeShader
     {
@@ -798,7 +892,7 @@ public partial class ShaderRewriterTests
     [AllDevices]
     public void MiscHlslIntrinsics(Device device)
     {
-        float[] data1 = [1, 2, 0.4f, 3.14f, 2.4f, 0.8f, 0, 0];
+        float[] data1 = [1, 2, 0.4f, 3.14f, 2.4f, 0.8f, 1.5f, -0.8f, 2.4f, 0.5f, 0.6f, -0.9f, 0, 0, 0, 0];
         int[] data2 = [111, 222, 333, 2, 4, 8, 63, 42, 77, 0, 0, 0];
 
         using ReadWriteBuffer<float> buffer1 = device.Get().AllocateReadWriteBuffer(data1);
@@ -810,7 +904,7 @@ public partial class ShaderRewriterTests
         int[] results2 = buffer2.ToArray();
 
         CollectionAssert.AreEqual(
-            expected: new[] { 1, 2, 0.4f, 3.14f, 2.4f, 0.8f, 2.8f, 7.08f },
+            expected: new[] { 1, 2, 0.4f, 3.14f, 2.4f, 0.8f, 1.5f, -0.8f, 2.4f, 0.5f, 0.6f, -0.9f, 2.8f, 7.08f, -1.5f, 0.8f },
             actual: results1,
             comparer: Comparer<float>.Create(static (x, y) => Math.Abs(x - y) < 0.000001f ? 0 : x.CompareTo(y)));
 
@@ -835,15 +929,21 @@ public partial class ShaderRewriterTests
             int3 i1 = new(buffer2[0], buffer2[1], buffer2[2]);
             int3 i2 = new(buffer2[3], buffer2[4], buffer2[5]);
             int3 i3 = new(buffer2[6], buffer2[7], buffer2[8]);
+            float2 f4 = new(buffer1[6], buffer1[7]);
+            float2 f5 = new(buffer1[8], buffer1[9]);
+            float2 f6 = new(buffer1[10], buffer1[11]);
 
             float2 r1 = Hlsl.Mad(f1, f2, f3);
             int3 r2 = Hlsl.Mad(i1, i2, i3);
+            float2 r3 = Hlsl.FaceForward(f4, f5, f6);
 
-            buffer1[6] = r1.X;
-            buffer1[7] = r1.Y;
+            buffer1[12] = r1.X;
+            buffer1[13] = r1.Y;
             buffer2[9] = r2.X;
             buffer2[10] = r2.Y;
             buffer2[11] = r2.Z;
+            buffer1[14] = r3.X;
+            buffer1[15] = r3.Y;
         }
     }
 
@@ -890,6 +990,281 @@ public partial class ShaderRewriterTests
         public readonly int GetNumber()
         {
             return this.Number;
+        }
+    }
+
+    [CombinatorialTestMethod]
+    [AllDevices]
+    public void HlslMatrixTypesCastOperators(Device device)
+    {
+        using ReadWriteBuffer<float> buffer1 = device.Get().AllocateReadWriteBuffer<float>(3);
+        using ReadWriteBuffer<int> buffer2 = device.Get().AllocateReadWriteBuffer<int>(8);
+        using ReadWriteBuffer<uint> buffer3 = device.Get().AllocateReadWriteBuffer<uint>(8);
+
+        device.Get().For(1, new HlslMatrixTypesCastOperatorsShader(buffer1, buffer2, buffer3));
+
+        float[] results1 = buffer1.ToArray();
+        int[] results2 = buffer2.ToArray();
+        uint[] results3 = buffer3.ToArray();
+
+        CollectionAssert.AreEqual(
+            expected: new float[] { 111, 222, 333 },
+            actual: results1,
+            comparer: Comparer<float>.Create(static (x, y) => Math.Abs(x - y) < 0.000001f ? 0 : x.CompareTo(y)));
+
+        CollectionAssert.AreEqual(
+            expected: new[] { 1, 3, 4, 5, 6, 1, 2, 3 },
+            actual: results2);
+
+        CollectionAssert.AreEqual(
+            expected: new uint[] { 1, 3, 4, 5, 6, 1, 2, 3 },
+            actual: results3);
+    }
+
+    [AutoConstructor]
+    [ThreadGroupSize(DefaultThreadGroupSizes.X)]
+    [GeneratedComputeShaderDescriptor]
+    internal readonly partial struct HlslMatrixTypesCastOperatorsShader : IComputeShader
+    {
+        public readonly ReadWriteBuffer<float> buffer1;
+        public readonly ReadWriteBuffer<int> buffer2;
+        public readonly ReadWriteBuffer<uint> buffer3;
+
+        public void Execute()
+        {
+            int1x3 i1x3 = new(111, 222, 333);
+            float2x4 f2x4 = new(1, 3.14f, 4, 5, 6.28f, 1.11f, 2.22f, 3.33f);
+
+            float1x3 f1x3 = (float1x3)i1x3;
+            int2x4 i2x4 = (int2x4)f2x4;
+            uint2x4 ui2x4 = (uint2x4)f2x4;
+
+            buffer1[0] = f1x3.M11;
+            buffer1[1] = f1x3.M12;
+            buffer1[2] = f1x3.M13;
+
+            buffer2[0] = i2x4.M11;
+            buffer2[1] = i2x4.M12;
+            buffer2[2] = i2x4.M13;
+            buffer2[3] = i2x4.M14;
+            buffer2[4] = i2x4.M21;
+            buffer2[5] = i2x4.M22;
+            buffer2[6] = i2x4.M23;
+            buffer2[7] = i2x4.M24;
+
+            buffer3[0] = ui2x4.M11;
+            buffer3[1] = ui2x4.M12;
+            buffer3[2] = ui2x4.M13;
+            buffer3[3] = ui2x4.M14;
+            buffer3[4] = ui2x4.M21;
+            buffer3[5] = ui2x4.M22;
+            buffer3[6] = ui2x4.M23;
+            buffer3[7] = ui2x4.M24;
+        }
+    }
+
+    // See https://github.com/Sergio0694/ComputeSharp/issues/735
+    [CombinatorialTestMethod]
+    [AllDevices]
+    public void KnownNamedIntrinsic_ConditionalSelect(Device device)
+    {
+        using ReadWriteBuffer<float> buffer1 = device.Get().AllocateReadWriteBuffer<float>(4);
+        using ReadWriteBuffer<int> buffer2 = device.Get().AllocateReadWriteBuffer<int>(3);
+        using ReadWriteBuffer<uint> buffer3 = device.Get().AllocateReadWriteBuffer<uint>(8);
+
+        device.Get().For(1, new KnownNamedIntrinsic_ConditionalSelectShader(buffer1, buffer2, buffer3));
+
+        float[] results1 = buffer1.ToArray();
+        int[] results2 = buffer2.ToArray();
+        uint[] results3 = buffer3.ToArray();
+
+        CollectionAssert.AreEqual(
+            expected: new[] { 1, 6, 3.14f, 4 },
+            actual: results1,
+            comparer: Comparer<float>.Create(static (x, y) => Math.Abs(x - y) < 0.000001f ? 0 : x.CompareTo(y)));
+
+        CollectionAssert.AreEqual(
+            expected: new[] { 1, 2, 6 },
+            actual: results2);
+
+        CollectionAssert.AreEqual(
+           expected: new uint[] { 1, 2, 333, 4, 555, 666, 777, 8 },
+           actual: results3);
+
+        ShaderInfo info = ReflectionServices.GetShaderInfo<KnownNamedIntrinsic_ConditionalSelectShader>();
+
+        Assert.AreEqual(
+            """
+            #define __GroupSize__get_X 64
+            #define __GroupSize__get_Y 1
+            #define __GroupSize__get_Z 1
+
+            cbuffer _ : register(b0)
+            {
+                uint __x;
+                uint __y;
+                uint __z;
+            }
+
+            RWStructuredBuffer<float> buffer1 : register(u0);
+
+            RWStructuredBuffer<int> buffer2 : register(u1);
+
+            RWStructuredBuffer<uint> buffer3 : register(u2);
+
+            [NumThreads(__GroupSize__get_X, __GroupSize__get_Y, __GroupSize__get_Z)]
+            void Execute(uint3 ThreadIds : SV_DispatchThreadID)
+            {
+                if (ThreadIds.x < __x && ThreadIds.y < __y && ThreadIds.z < __z)
+                {
+                    bool4 mask4 = bool4(true, false, true, true);
+                    float4 float4_1 = float4(1, 2, 3.14, 4);
+                    float4 float4_2 = float4(5, 6, 7, 8);
+                    float4 float4_r = select(mask4, float4_1, float4_2);
+                    buffer1[0] = float4_r.x;
+                    buffer1[1] = float4_r.y;
+                    buffer1[2] = float4_r.z;
+                    buffer1[3] = float4_r.w;
+                    bool1x3 mask1x3 = bool1x3((bool)true, (bool)true, (bool)false);
+                    int1x3 int1x3_1 = int1x3((int)1, (int)2, (int)3);
+                    int1x3 int1x3_2 = int1x3((int)4, (int)5, (int)6);
+                    int1x3 int1x3_r = select(mask1x3, int1x3_1, int1x3_2);
+                    buffer2[0] = int1x3_r._m00;
+                    buffer2[1] = int1x3_r._m01;
+                    buffer2[2] = int1x3_r._m02;
+                    bool2x4 mask2x4 = bool2x4((bool)true, (bool)true, (bool)false, (bool)true, (bool)false, (bool)false, (bool)false, (bool)true);
+                    uint2x4 uint2x4_1 = uint2x4((uint)1, (uint)2, (uint)3, (uint)4, (uint)5, (uint)6, (uint)7, (uint)8);
+                    uint2x4 uint2x4_2 = uint2x4((uint)111, (uint)222, (uint)333, (uint)444, (uint)555, (uint)666, (uint)777, (uint)888);
+                    uint2x4 uint2x4_r = select(mask2x4, uint2x4_1, uint2x4_2);
+                    buffer3[0] = uint2x4_r._m00;
+                    buffer3[1] = uint2x4_r._m01;
+                    buffer3[2] = uint2x4_r._m02;
+                    buffer3[3] = uint2x4_r._m03;
+                    buffer3[4] = uint2x4_r._m10;
+                    buffer3[5] = uint2x4_r._m11;
+                    buffer3[6] = uint2x4_r._m12;
+                    buffer3[7] = uint2x4_r._m13;
+                }
+            }
+            """,
+            info.HlslSource);
+    }
+
+    [AutoConstructor]
+    [ThreadGroupSize(DefaultThreadGroupSizes.X)]
+    [GeneratedComputeShaderDescriptor]
+    internal readonly partial struct KnownNamedIntrinsic_ConditionalSelectShader : IComputeShader
+    {
+        public readonly ReadWriteBuffer<float> buffer1;
+        public readonly ReadWriteBuffer<int> buffer2;
+        public readonly ReadWriteBuffer<uint> buffer3;
+
+        public void Execute()
+        {
+            bool4 mask4 = new(true, false, true, true);
+            float4 float4_1 = new(1, 2, 3.14f, 4);
+            float4 float4_2 = new(5, 6, 7, 8);
+
+            float4 float4_r = Hlsl.Select(mask4, float4_1, float4_2);
+
+            buffer1[0] = float4_r.X;
+            buffer1[1] = float4_r.Y;
+            buffer1[2] = float4_r.Z;
+            buffer1[3] = float4_r.W;
+
+            bool1x3 mask1x3 = new(true, true, false);
+            int1x3 int1x3_1 = new(1, 2, 3);
+            int1x3 int1x3_2 = new(4, 5, 6);
+
+            int1x3 int1x3_r = Hlsl.Select(mask1x3, int1x3_1, int1x3_2);
+
+            buffer2[0] = int1x3_r.M11;
+            buffer2[1] = int1x3_r.M12;
+            buffer2[2] = int1x3_r.M13;
+
+            bool2x4 mask2x4 = new(true, true, false, true, false, false, false, true);
+            uint2x4 uint2x4_1 = new(1, 2, 3, 4, 5, 6, 7, 8);
+            uint2x4 uint2x4_2 = new(111, 222, 333, 444, 555, 666, 777, 888);
+
+            uint2x4 uint2x4_r = Hlsl.Select(mask2x4, uint2x4_1, uint2x4_2);
+
+            buffer3[0] = uint2x4_r.M11;
+            buffer3[1] = uint2x4_r.M12;
+            buffer3[2] = uint2x4_r.M13;
+            buffer3[3] = uint2x4_r.M14;
+            buffer3[4] = uint2x4_r.M21;
+            buffer3[5] = uint2x4_r.M22;
+            buffer3[6] = uint2x4_r.M23;
+            buffer3[7] = uint2x4_r.M24;
+        }
+    }
+
+    [TestMethod]
+    public void KnownNamedIntrinsic_AndOr()
+    {
+        ShaderInfo info = ReflectionServices.GetShaderInfo<KnownNamedIntrinsic_AndOrShader>();
+
+        Assert.AreEqual(
+            """
+            #define __GroupSize__get_X 64
+            #define __GroupSize__get_Y 1
+            #define __GroupSize__get_Z 1
+
+            cbuffer _ : register(b0)
+            {
+                uint __x;
+                uint __y;
+                uint __z;
+            }
+
+            RWStructuredBuffer<float> __reserved__buffer : register(u0);
+
+            [NumThreads(__GroupSize__get_X, __GroupSize__get_Y, __GroupSize__get_Z)]
+            void Execute(uint3 ThreadIds : SV_DispatchThreadID)
+            {
+                if (ThreadIds.x < __x && ThreadIds.y < __y && ThreadIds.z < __z)
+                {
+                    bool4 mask4_1 = bool4(true, false, true, true);
+                    bool4 mask4_2 = bool4(true, false, true, true);
+                    bool4 mask4_r_and = and(mask4_1, mask4_2);
+                    bool4 mask4_r_or = or(mask4_1, mask4_2);
+                    bool2x3 mask2x3_1 = bool2x3((bool)true, (bool)false, (bool)true, (bool)true, (bool)false, (bool)false);
+                    bool2x3 mask2x3_2 = bool2x3((bool)true, (bool)false, (bool)true, (bool)true, (bool)true, (bool)true);
+                    bool2x3 mask2x3_r_and = and(mask2x3_1, mask2x3_2);
+                    bool2x3 mask2x3_r_or = or(mask2x3_1, mask2x3_2);
+                    __reserved__buffer[0] = mask4_r_and.x ? 1 : 0;
+                    __reserved__buffer[1] = mask4_r_or.y ? 1 : 0;
+                    __reserved__buffer[2] = mask2x3_r_and._m00 ? 1 : 0;
+                    __reserved__buffer[3] = mask2x3_r_or._m00 ? 1 : 0;
+                }
+            }
+            """,
+            info.HlslSource);
+    }
+
+    [AutoConstructor]
+    [ThreadGroupSize(DefaultThreadGroupSizes.X)]
+    [GeneratedComputeShaderDescriptor]
+    internal readonly partial struct KnownNamedIntrinsic_AndOrShader : IComputeShader
+    {
+        public readonly ReadWriteBuffer<float> buffer;
+
+        public void Execute()
+        {
+            bool4 mask4_1 = new(true, false, true, true);
+            bool4 mask4_2 = new(true, false, true, true);
+            bool4 mask4_r_and = Hlsl.And(mask4_1, mask4_2);
+            bool4 mask4_r_or = Hlsl.Or(mask4_1, mask4_2);
+
+            bool2x3 mask2x3_1 = new(true, false, true, true, false, false);
+            bool2x3 mask2x3_2 = new(true, false, true, true, true, true);
+            bool2x3 mask2x3_r_and = Hlsl.And(mask2x3_1, mask2x3_2);
+            bool2x3 mask2x3_r_or = Hlsl.Or(mask2x3_1, mask2x3_2);
+
+            buffer[0] = mask4_r_and.X ? 1 : 0;
+            buffer[1] = mask4_r_or.Y ? 1 : 0;
+            buffer[2] = mask2x3_r_and.M11 ? 1 : 0;
+            buffer[3] = mask2x3_r_or.M11 ? 1 : 0;
         }
     }
 }

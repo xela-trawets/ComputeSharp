@@ -16,7 +16,6 @@ using ImageSharpRgba32 = SixLabors.ImageSharp.PixelFormats.Rgba32;
 namespace ComputeSharp.Tests;
 
 [TestClass]
-[TestCategory("Shaders")]
 public class ShadersTests
 {
     [CombinatorialTestMethod]
@@ -181,7 +180,7 @@ public class ShadersTests
 
                 Action<ReadWriteTexture2D<Rgba32, float4>> action = new(RunComputeShader<SwapChain.Shaders.Compute.ColorfulInfinity>);
 
-                _ = action.Method.GetGenericMethodDefinition().MakeGenericMethod(shaderType).Invoke(null, new[] { texture });
+                _ = action.Method.GetGenericMethodDefinition().MakeGenericMethod(shaderType).Invoke(null, [texture]);
             }
             else
             {
@@ -197,7 +196,7 @@ public class ShadersTests
 
                 Action<ReadWriteTexture2D<Rgba32, float4>> action = new(RunPixelShader<ColorfulInfinity>);
 
-                _ = action.Method.GetGenericMethodDefinition().MakeGenericMethod(shaderType).Invoke(null, new[] { texture });
+                _ = action.Method.GetGenericMethodDefinition().MakeGenericMethod(shaderType).Invoke(null, [texture]);
             }
 
             _ = image.DangerousTryGetSinglePixelMemory(out Memory<ImageSharpRgba32> memory);
